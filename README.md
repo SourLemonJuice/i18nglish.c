@@ -9,12 +9,14 @@ See the original repository/README for more ideas about `i18nglish`.
 - Faster, of course. It's a C program not Python script.
 - Yeah... Anyway, it's built with C.
 
-## Build
+## Use in Command Line
+
+### Build
 
 Goto `source/` folder, and run `make`.\
 The executable file will named `main.out`.
 
-## Command Line Inputs
+### How to use
 
 No `--help` or any flags yet, so I'll put them here first.\
 um... It looked like...
@@ -24,26 +26,38 @@ $ ./main.out string
 s4g
 ```
 
-And now it only accepts `one` string...\
+And now it only accepts `one/1` string...\
 I'm thinking about this.
 
-## Functions
+## Move function to you programe
 
-The main process function is `i7n_processor`, this is its prototype:
+The main process function is `i7h_processor`, this is its prototype:
 
 ```c
-int i7n_processor(char *buffer, size_t buffer_size, const char *src_string)
+int i7h_processor(struct i7h_data_struct *i7h_data, const char *src_string)
 ```
 
-The caller need create a buffer to store the output string.\
-Hum, for now I'll leave the jobs to the caller.
+And the structure `i7h_data_struct`:
+
+```c
+struct i7h_data_struct
+{
+    char *buffer;
+    size_t buffer_size;
+};
+```
+
+When the `i7h_processor` is called it'll auto `malloc()` the buffer with the right size.\
+Caller doesn't need to free the buffer in every loop. But **must** call `i7h_reset_structure()` at the END of the loop to free them.
+
+See more examples in *source/main.c*
 
 ## Other Idea(implementation)
 
 Why is this word so long?
 
 Ah..\
-If just use it in CLI/Shell/STDOUT, you can do it this way(untested):
+If just use it in CLI/stdout, you can do it this way(untested):
 
 ```c
 int src_string_length = strlen(src_string); // get length
@@ -56,9 +70,9 @@ putc('\n');
 
 ## Todo List
 
+- Separate processor functions from *main.c*
 - Muti word input, or file input/output.
 - Flags? But what about injection attacks? Use stdin/stdout? Maybe.
-- Can we just return a pointer to a string? That way other one can use it easily.
 
 ## License
 
