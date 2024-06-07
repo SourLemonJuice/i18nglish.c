@@ -36,7 +36,7 @@ All the functions/defines you need are in *source/i7h_processor.c / .h*
 The main process function is `i7h_processor`, this is its prototype:
 
 ```c
-int i7h_processor(struct i7h_data_struct *i7h_data, const char *src_string)
+int i7h_processor(struct i7h_data_struct i7h_data[restrict], const char src_string[restrict]);
 ```
 
 And the structure `i7h_data_struct`:
