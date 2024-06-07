@@ -6,7 +6,7 @@ See the original repository/README for more ideas about `i18nglish`.
 
 ## What is getting Batter
 
-- Faster, of course. It's a C program not Python.
+- Faster, of course. It's a C program not Python script.
 - Yeah... Anyway, it's built with C.
 
 ## Build
@@ -29,7 +29,7 @@ I'm thinking about this.
 
 ## Functions
 
-The main process function is `i7n_processor`, this is it's prototype:
+The main process function is `i7n_processor`, this is its prototype:
 
 ```c
 int i7n_processor(char *buffer, size_t buffer_size, const char *src_string)
