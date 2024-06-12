@@ -75,6 +75,11 @@ putc('\n');
 - Punctuation is not part of the word.
 - Flags? But what about injection attacks? Use stdin/stdout? Maybe.
 
+## Unstable Flags
+
+Flag `--source_file <file path>` can be input from a file. But the code is so... bad.\
+And the cli options also where garbage.
+
 ## License
 
 Published Under MIT License.
