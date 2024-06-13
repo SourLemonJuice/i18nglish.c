@@ -54,15 +54,18 @@ int i7h_processor(struct i7h_data_struct i7h_data[restrict], const char src_stri
 And the structure `i7h_data_struct`:
 
 ```c
-struct i7h_data_struct
-{
+struct i7h_data_struct {
     char *buffer;
-    size_t buffer_size;
+    size_t nowBufferSize;
+    size_t realBufferSize;
+    int src_string_length;
 };
 ```
 
-When the `i7h_processor` is called it'll auto `malloc()` the buffer with the right size.\
-Caller doesn't need to free the buffer in every loop. But **must** call `i7h_reset_structure()` at the END of the loop to free them.
+When the `i7h_processor()` is called, it'll auto resize the buffer in structure.\
+Caller doesn't need to free the buffer in every loop. But **must**:\
+call `i7h_init_structure()` at the START of the loop\
+call `i7h_free_structure()` at the END of the loop to free them
 
 See usage details in *source/main.c*
 
