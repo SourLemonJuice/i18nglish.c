@@ -42,9 +42,7 @@ int i7h_processor_file(char *file_path)
     // file stuff
     FILE *file_handle = fopen(file_path, "r");
     char next_char;
-    char temp_string[10]; // TODO I'm tired... no one will use more than 16 KiB memory.
-    // and why processor still can work??? and why when the structure be freed, stack broken!!!
-    // is the scanf's problem?
+    char temp_string[1024 * 4]; // TODO I'm tired... no one will input more than 4 KiB chars.
 
     // create i7h data(buffer)
     struct i7h_data_struct i7h_data;
@@ -83,7 +81,7 @@ int i7h_processor_file(char *file_path)
 int i7h_processor_stdin(void)
 {
     char next_char;
-    char temp_string[1024 * 16]; // TODO same like i7h_processor_file()
+    char temp_string[1024 * 4]; // TODO same like i7h_processor_file()
     struct i7h_data_struct i7h_data;
     i7h_init_structure(&i7h_data);
 
