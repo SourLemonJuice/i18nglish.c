@@ -1,3 +1,5 @@
+#include "main.h"
+
 #include <stdbool.h>
 #include <iso646.h>
 #include <stdio.h>
@@ -6,8 +8,6 @@
 
 #include "i7h_processor.h"
 #include "error_type.h"
-
-#define APP_VERSION_STRING "Develop"
 
 int i7h_processor_argv(int argc, char *argv[], int argc_begin)
 {
@@ -102,8 +102,10 @@ int main(int argc, char *argv[])
         // --version
         if (strcmp(argv[i], "--version") == 0) {
             printf("Version: %s\n", APP_VERSION_STRING);
-            puts("By 酸柠檬猹/SourLemonJuice 2024.");
-            puts("Published under MIT license.");
+            printf("Build Date: %s, Time: %s\n", __DATE__, __TIME__);
+            printf("Git commit: %s\n", APP_GIT_COMMIT_INFO);
+            puts("By 酸柠檬猹/SourLemonJuice 2024");
+            puts("Published under MIT license");
             exit(EXIT_SUCCESS);
         }
         // --source_file
