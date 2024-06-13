@@ -40,15 +40,25 @@ int i7h_processor_file(char *file_path)
 {
     // file stuff
     FILE *file_handle = fopen(file_path, "r");
+    char next_char;
     char temp_string[128];
 
-    // create i7h data
+    // create i7h data(buffer)
     struct i7h_data_struct i7h_data;
 
-    while (not feof(file_handle) != 0 or ferror(file_handle) != 0) {
+    // TODO Can this detecter be rewritten as a macro?
+    while ((next_char = getc(file_handle)) != EOF) {
+        // separate all speace/lineBreaks char
+        if (next_char == ' ' or next_char == '\n')
+            continue;
+        else
+            ungetc(next_char, file_handle); // this char just used for detect EOF
+
+        /*  great debug code
+            printf("%d\n", fscanf(file_handle, "%s", temp_string)); */
         fscanf(file_handle, "%s", temp_string);
         // call the main function
-        if(i7h_processor(&i7h_data, temp_string) == 0) {
+        if (i7h_processor(&i7h_data, temp_string) == 0) {
             printf("%s ", i7h_data.buffer);
         } else {
             printf("Error: Something wrong while processing.\n");
@@ -67,10 +77,17 @@ int i7h_processor_file(char *file_path)
 
 int i7h_processor_stdin(void)
 {
+    char next_char;
     char temp_string[128];
     struct i7h_data_struct i7h_data;
 
-    while (not feof(stdin) != 0 or ferror(stdin) != 0) {
+    // Sames like i7h_processor_file, here is just copy
+    while ((next_char = getc(stdin)) != EOF) {
+        if (next_char == ' ' or next_char == '\n')
+            continue;
+        else
+            ungetc(next_char, stdin); // EOF detect
+
         fscanf(stdin, "%s", temp_string);
         if (i7h_processor(&i7h_data, temp_string) == 0) {
             printf("%s ", i7h_data.buffer);
@@ -104,8 +121,8 @@ int main(int argc, char *argv[])
             printf("Version: %s\n", APP_VERSION_STRING);
             printf("Build Date: %s, Time: %s\n", __DATE__, __TIME__);
             printf("Git commit: %s\n", APP_GIT_COMMIT_INFO);
-            puts("By 酸柠檬猹/SourLemonJuice 2024");
-            puts("Published under MIT license");
+            printf("By 酸柠檬猹/SourLemonJuice 2024\n");
+            printf("Published under MIT license\n");
             exit(EXIT_SUCCESS);
         }
         // --source_file

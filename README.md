@@ -48,7 +48,7 @@ All the functions/defines you need are in *source/i7h_processor.c / .h*
 The main process function is `i7h_processor`, this is its prototype:
 
 ```c
-int i7h_processor(struct i7h_data_struct i7h_data[restrict], const char src_string[restrict]);
+int i7h_processor(struct i7h_data_struct i7h_data[restrict], const char src_string[]);
 ```
 
 And the structure `i7h_data_struct`:
@@ -84,8 +84,10 @@ putc('\n');
 
 ## Todo List
 
-- Improve the way to handle CLI flags.
-- Punctuation is not part of the word.
+- Improve the way to handle CLI flags
+- Add clang-format config
+- Github CI
+- Punctuation is not part of the word
 
 ## License
 

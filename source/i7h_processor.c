@@ -10,7 +10,7 @@
 // get the length of a integer
 int get_int_length(int src_int);
 
-int i7h_processor(struct i7h_data_struct i7h_data[restrict], const char src_string[restrict])
+int i7h_processor(struct i7h_data_struct i7h_data[restrict], const char src_string[])
 {
     /* init */
     // free structure.buffer
