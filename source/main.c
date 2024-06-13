@@ -4,6 +4,7 @@
 #include <iso646.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 
 #include "i7h_processor.h"
@@ -31,7 +32,7 @@ int i7h_processor_argv(int argc, char *argv[], int argc_begin)
     }
     printf("\n");
     // free the buffer
-    i7h_reset_structure(&i7h_data);
+    i7h_free_structure(&i7h_data);
 
     return 0;
 }
@@ -41,10 +42,14 @@ int i7h_processor_file(char *file_path)
     // file stuff
     FILE *file_handle = fopen(file_path, "r");
     char next_char;
-    char temp_string[128];
+    char temp_string[10]; // TODO I'm tired... no one will use more than 16 KiB memory.
+    // and why processor still can work??? and why when the structure be freed, stack broken!!!
+    // is the scanf's problem?
 
     // create i7h data(buffer)
     struct i7h_data_struct i7h_data;
+    // init structure
+    i7h_init_structure(&i7h_data);
 
     // TODO Can this detecter be rewritten as a macro?
     while ((next_char = getc(file_handle)) != EOF) {
@@ -68,8 +73,8 @@ int i7h_processor_file(char *file_path)
     }
     printf("\n");
 
-    // free something
-    i7h_reset_structure(&i7h_data);
+    // to free something
+    i7h_free_structure(&i7h_data);
     fclose(file_handle);
 
     return 0;
@@ -78,8 +83,9 @@ int i7h_processor_file(char *file_path)
 int i7h_processor_stdin(void)
 {
     char next_char;
-    char temp_string[128];
+    char temp_string[1024 * 16]; // TODO same like i7h_processor_file()
     struct i7h_data_struct i7h_data;
+    i7h_init_structure(&i7h_data);
 
     // Sames like i7h_processor_file, here is just copy
     while ((next_char = getc(stdin)) != EOF) {
@@ -96,6 +102,8 @@ int i7h_processor_stdin(void)
         }
     }
     printf("\n");
+
+    i7h_free_structure(&i7h_data);
 
     return 0;
 }
