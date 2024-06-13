@@ -1,10 +1,10 @@
+#include "i7h_processor.h"
+
 #include <stdbool.h>
 #include <iso646.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "i7h_processor.h"
 
 /* private functions prototype */
 // get the length of a integer

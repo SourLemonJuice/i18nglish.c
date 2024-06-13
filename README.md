@@ -1,33 +1,45 @@
 # i18nglish.c
 
-Short name is `i7h.c`.\
+Or AKA `i7h.c`.\
 This is a transplant of [RimoChan/i7h](https://github.com/RimoChan/i7h), to support c language.\
-See the README of the original repository for get more details about `i18nglish`.
+**Please** check the README of the original repository to get more details about `i18nglish`.
 
 ## What's getting better
 
 - Faster, of course. It's a C program not Python script.
 - Yeah... Anyway, it's built with C.
+- Anyway, I'm learning C-language, so it's a great way to practice language and learn how to build CI workflow.
 
 ## Use in Command Line
 
 ### Build
 
 Goto `source/` folder, and run `make`.\
-The executable file will named `main.out`.
+The executable file will named `i18nglish.out`.
+
+When all is stabled, I'll release the binary file.
 
 ### How to use
 
-No `--help` or any flags yet, so I'll put them here first.\
-um... It looked like...
+#### Simply start
+
+You can run it with `--help` to get all flags.\
+um... In simplest case it looked like...
 
 ```text
-$ ./main.out string
-s4g
+$ ./i18nglish.out -- hello world
+h3o w3d
 ```
 
-And now it only accepts **one** string...\
-I'm thinking about this.
+#### Flags/Arguments
+
+```text
+$ ./i18nglish.out --help
+All flags/arguments are unstabled.
+--help | --version | -- <string> <...> | --source_file <filePath> | --stdin
+```
+
+NOTE: All flags are unstabled!!!
 
 ## Move function to you programe
 
@@ -72,13 +84,8 @@ putc('\n');
 
 ## Todo List
 
+- Improve the way to handle CLI flags.
 - Punctuation is not part of the word.
-- Flags? But what about injection attacks? Use stdin/stdout? Maybe.
-
-## Unstable Flags
-
-Flag `--source_file <file path>` can be input from a file. But the code is so... bad.\
-And the cli options also where garbage.
 
 ## License
 
