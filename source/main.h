@@ -9,7 +9,7 @@
 #endif
 
 /* Self define */
-#define APP_VERSION_STRING "Development"
+#define APP_VERSION_STRING "ver-1.0"
 /*
     TODO I'm tired...
     This size use for some input string preprocessor, like fscanf() or deletePunctuations()
