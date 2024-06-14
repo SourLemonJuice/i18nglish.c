@@ -90,11 +90,10 @@ putc('\n');
 
 ## Todo List
 
+> Todo list is for myself, not for showing off. The history todo only needs store in git history.
+
 - Improve the way to handle CLI flags
 - Add clang-format config
-- Use `clang` compiler?
-- Github CI
-- Punctuation is not part of the word
 
 ## Code style
 
