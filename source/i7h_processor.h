@@ -4,19 +4,26 @@
 #include <stddef.h>
 
 /* structures */
-struct i7h_data_struct {
+struct I7hDataStruct {
     char *buffer;
-    size_t nowBufferSize;
-    size_t realBufferSize;
+    size_t now_buffer_size;
+    size_t real_buffer_size;
     int src_string_length;
+};
+
+/* enumerates */
+enum I7hResultType {
+    I7hOK = 0,
+    I7hErrorAllocMemory = 1,
+    I7hErrorFreeMemory,
 };
 
 /* functions */
 // main i7h processor
-int i7h_processor(struct i7h_data_struct i7h_data[restrict], const char src_string[]);
+int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[]);
 // init structure
-int i7h_init_structure(struct i7h_data_struct i7h_D[restrict]);
+int i7hInitStructure(struct I7hDataStruct i7h_D[restrict]);
 // free buffer(if have)
-int i7h_free_structure(struct i7h_data_struct i7h_D[restrict]);
+int i7hFreeStructure(struct I7hDataStruct i7h_D[restrict]);
 
 #endif

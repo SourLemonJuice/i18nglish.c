@@ -31,7 +31,7 @@ $ ./i18nglish.out -- hello world
 h3o w3d
 ```
 
-#### Flags/Arguments
+#### All flags/arguments
 
 ```text
 $ ./i18nglish.out --help
@@ -39,39 +39,42 @@ All flags/arguments are unstabled.
 --help | --version | -- <string> <...> | --source_file <filePath> | --stdin
 ```
 
-NOTE: All flags are unstabled!!!
+NOTE: All flags are unstabled.
 
-## Move function to you programe
+### Precautions
+
+stdin/file mode only can process words with a maximum length of (1024 * 2) chars.\
+Although there is no **word**(separated with space, `\0`, `\n`) as long as this.
+
+## Move main functions to other project
 
 All the functions/defines you need are in *source/i7h_processor.c / .h*
 
-The main process function is `i7h_processor`, this is its prototype:
+The main process function is `i7hProcessor()`, this is its prototype:
 
 ```c
-int i7h_processor(struct i7h_data_struct i7h_data[restrict], const char src_string[]);
+int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[]);
 ```
 
-And the structure `i7h_data_struct`:
+And the structure `I7hDataStruct`:
 
 ```c
-struct i7h_data_struct {
+struct I7hDataStruct {
     char *buffer;
-    size_t nowBufferSize;
-    size_t realBufferSize;
+    size_t now_buffer_size;
+    size_t real_buffer_size;
     int src_string_length;
 };
 ```
 
-When the `i7h_processor()` is called, it'll auto resize the buffer in structure.\
+When the `i7hProcessor()` is called, it'll auto resize the buffer in structure.\
 Caller doesn't need to free the buffer in every loop. But **must**:\
-call `i7h_init_structure()` at the START of the loop\
-call `i7h_free_structure()` at the END of the loop to free them
+call `i7hInitStructure()` at the START of the loop\
+call `i7hFreeStructure()` at the END of the loop to free them
 
 See usage details in *source/main.c*
 
-## Other Idea(implementation)
-
-Why is this word so long?
+## Other Idea
 
 Ah..\
 If just use it in CLI/stdout, you can do it this way(untested):
@@ -89,8 +92,13 @@ putc('\n');
 
 - Improve the way to handle CLI flags
 - Add clang-format config
+- Use `clang` compiler?
 - Github CI
 - Punctuation is not part of the word
+
+## Code style
+
+[Google Style Guide C++](https://google.github.io/styleguide/cppguide.html)(or just want to be)
 
 ## License
 
