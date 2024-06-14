@@ -48,7 +48,7 @@ int deletePunctuations(char src_string[], int src_size, char des_string[], int d
     return 0;
 }
 
-int i7h_processor_argv(int argc, char *argv[], int argc_begin)
+int i7hProcessorArgv(int argc, char *argv[], int argc_begin)
 {
     if (argc_begin > argc - 1) {
         puts("ERROR: Parameter invalid.");
@@ -84,7 +84,7 @@ int i7h_processor_argv(int argc, char *argv[], int argc_begin)
     return 0;
 }
 
-int i7h_processor_file(char *file_path)
+int i7hProcessorFile(char *file_path)
 {
     // file stuff
     FILE *file_handle = fopen(file_path, "r");
@@ -129,7 +129,7 @@ int i7h_processor_file(char *file_path)
     return 0;
 }
 
-int i7h_processor_stdin(void)
+int i7hProcessorStdin(void)
 {
     char next_char;
     char temp_string[INPUT_BUFFER_SIZE];
@@ -139,7 +139,7 @@ int i7h_processor_stdin(void)
     i7hInitStructure(&i7h_data);
     int i7h_proc_result;
 
-    // Sames like i7h_processor_file, here is just copy
+    // Sames like i7hProcessorFile, here is just copy
     while ((next_char = getc(stdin)) != EOF) {
         if (next_char == ' ' or next_char == '\n')
             continue;
@@ -196,7 +196,7 @@ int main(int argc, char *argv[])
         if (strcmp(argv[i], "--source_file") == 0) {
             i++;
             if (i + 1 <= argc) {
-                i7h_processor_file(argv[i]);
+                i7hProcessorFile(argv[i]);
             } else {
                 puts("Flag value ERROR");
                 exit(AppExitGetFlag);
@@ -205,12 +205,12 @@ int main(int argc, char *argv[])
         }
         // --stdin
         if (strcmp(argv[i], "--stdin") == 0) {
-            i7h_processor_stdin();
+            i7hProcessorStdin();
             exit(AppExitOk);
         }
         // --
         if (strcmp(argv[i], "--") == 0) {
-            i7h_processor_argv(argc, argv, ++i);
+            i7hProcessorArgv(argc, argv, ++i);
             exit(AppExitOk);
         }
         // default

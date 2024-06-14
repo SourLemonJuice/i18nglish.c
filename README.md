@@ -4,11 +4,15 @@ Or AKA `i7h.c`.\
 This is a transplant of [RimoChan/i7h](https://github.com/RimoChan/i7h), to support c language.\
 **Please** check the README of the original repository to get more details about `i18nglish`.
 
+It's just a joke.
+
 ## What's getting better
 
 - Faster, of course. It's a C program not Python script.
 - Yeah... Anyway, it's built with C.
-- Anyway, I'm learning C-language, so it's a great way to practice language and learn how to build CI workflow.
+
+I'm learning C-language, so it's a great way to practice language and learn how to build CI workflow.\
+I have also learned a lot of stuff about memory mamager, really thanks to this project.
 
 ## Use in Command Line
 
@@ -17,7 +21,7 @@ This is a transplant of [RimoChan/i7h](https://github.com/RimoChan/i7h), to supp
 Goto `source/` folder, and run `make`.\
 The executable file will named `i18nglish.out`.
 
-When all is stabled, I'll release the binary file.
+For now, the compiler is `clang`.
 
 ### How to use
 
@@ -43,8 +47,8 @@ NOTE: All flags are unstabled.
 
 ### Precautions
 
-stdin/file mode only can process words with a maximum length of (1024 * 2) chars.\
-Although there is no **word**(separated with space, `\0`, `\n`) as long as this.
+stdin/file mode only can process words with a maximum length of (1024 * 1) chars. This limit defined in *source/main.h*\
+Although there is no **word**(separated with space and `\n`) as long as this.
 
 ## Move main functions to other project
 
@@ -56,16 +60,7 @@ The main process function is `i7hProcessor()`, this is its prototype:
 int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[]);
 ```
 
-And the structure `I7hDataStruct`:
-
-```c
-struct I7hDataStruct {
-    char *buffer;
-    size_t now_buffer_size;
-    size_t real_buffer_size;
-    int src_string_length;
-};
-```
+And the structure `I7hDataStruct`, it's like a buffer of processor.
 
 When the `i7hProcessor()` is called, it'll auto resize the buffer in structure.\
 Caller doesn't need to free the buffer in every loop. But **must**:\
@@ -87,6 +82,8 @@ printf("%d", src_string_length - 2); // the numbers between
 putc(src_string[src_string_length - 1], stdout); // last char
 putc('\n');
 ```
+
+Maybe I'll put them to *main.c* at later.
 
 ## Todo List
 
