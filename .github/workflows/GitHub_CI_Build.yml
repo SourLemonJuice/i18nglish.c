@@ -1,0 +1,25 @@
+name: Build CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build with make
+      run: make --directory=./source/
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: i18nglish_linux.out
+        path: /source/i18nglish.out
+        if-no-files-found: error
+        retention-days: 1
