@@ -8,6 +8,7 @@ build_host_description = Local build
 
 # ' and " in shell is so... Ugly!!
 # And I'll use cli to overwrite them with github ci, uglier then ugly.
+# It took me 6 commits to figure this out.
 
 ALL: i18nglish.out
 
