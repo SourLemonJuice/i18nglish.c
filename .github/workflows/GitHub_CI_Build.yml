@@ -7,13 +7,16 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  CI_HOST_INFO: GitHub Build CI
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Build with make
-        run: make --directory=./source/
+        run: make --directory="./source/" build_host_description=$(CI_HOST_INFO)
       - name: Upload executable file
         uses: actions/upload-artifact@v4
         with:
