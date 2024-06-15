@@ -3,16 +3,9 @@
 
 #include <stdlib.h>
 
-/*
-    For compiler defin flag(gcc -D)
-    Those macros should be defined by compiler
- */
+/* For compiler defin flag(gcc -D) */
 #ifndef APP_GIT_COMMIT_INFO
-#define APP_GIT_COMMIT_INFO "[Build ERROR] APP_GIT_COMMIT_INFO not defined"
-#endif
-
-#ifndef APP_BUILD_HOST_DESCRIPTION
-#define APP_BUILD_HOST_DESCRIPTION "[Build ERROR] APP_BUILD_HOST_DESCRIPTION not defined"
+#define APP_GIT_COMMIT_INFO "ERROR: APP_GIT_COMMIT_INFO should be defined by compiler"
 #endif
 
 /* Self define */

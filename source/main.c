@@ -187,7 +187,6 @@ int main(int argc, char *argv[])
             printf("Build Date:\t%s, Time: %s\n", __DATE__, __TIME__);
             printf("Git commit:\t%s\n", APP_GIT_COMMIT_INFO);
             printf("Compiler ver:\t%s\n", __VERSION__); // __VERSION__ is not a std macro.
-            printf("Build host:\t%s\n", APP_BUILD_HOST_DESCRIPTION);
             printf("==== Author info ====\n");
             printf("Developed by 酸柠檬猹/SourLemonJuice 2024\n");
             printf("Published under MIT license\n");
