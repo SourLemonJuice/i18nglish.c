@@ -48,7 +48,17 @@ NOTE: All flags are unstabled.
 ### Precautions
 
 stdin/file mode only can process words with a maximum length of (1024 * 1) chars. This limit defined in *source/main.h*\
-Although there is no **word**(separated with space and `\n`) as long as this.
+Although there is no **word**(separated with `space` and `\n`) as long as this.
+
+Only use for ASCII(single char type) characters, don't do this:
+
+```shell
+./i18nglish.out -- — 或者这种字符串
+```
+
+If it's happend, I won't care of them.\
+Maybe, error looked like: `�16�`\
+This program just an English joke, so it's should be fine.
 
 ## Move main functions to other project
 
@@ -90,15 +100,17 @@ Maybe I'll put them to *main.c* at later.
 > Todo list is for myself, not for showing off. The history todo only needs store in git history.
 
 - Improve the way to handle CLI flags
-- Add clang-format config
 
 ## Code style
 
-[Google Style Guide C++](https://google.github.io/styleguide/cppguide.html)(or just want to be)
+Variable names reference [Google Style Guide C++](https://google.github.io/styleguide/cppguide.html)(or just want to be).\
+Most block styles are from Linux kernal.
 
-## GitHub CI
+The clang-format config has already been added to the repo, but maybe still incomplete.
 
-![Build CI Badge](https://github.com/SourLemonJuice/i18nglish.c/actions/workflows/GitHub_CI_Build.yml/badge.svg)
+## Just put something at last
+
+![Build CI Badge](https://github.com/SourLemonJuice/i18nglish.c/actions/workflows/Build.yml/badge.svg)
 
 ## License
 

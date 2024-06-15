@@ -1,12 +1,12 @@
 #include "main.h"
 
-#include <stdbool.h>
+#include <ctype.h>
 #include <iso646.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "i7h_processor.h"
 

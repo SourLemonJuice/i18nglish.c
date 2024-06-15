@@ -1,7 +1,7 @@
 #include "i7h_processor.h"
 
-#include <stdbool.h>
 #include <iso646.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,7 +35,8 @@ int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[])
         return 0;
     } else {
         // normal one
-        if(snprintf(i7h_D->buffer, i7h_D->now_buffer_size, "%c%d%c", src_string[0], i7h_D->src_string_length - 2, src_string[i7h_D->src_string_length - 1]) >= 0) {
+        if (snprintf(i7h_D->buffer, i7h_D->now_buffer_size, "%c%d%c", src_string[0], i7h_D->src_string_length - 2,
+                     src_string[i7h_D->src_string_length - 1]) >= 0) {
             return 0;
         } else {
             return 1;
@@ -57,7 +58,7 @@ int i7hInitStructure(struct I7hDataStruct i7h_D[restrict])
 
 int i7hFreeStructure(struct I7hDataStruct i7h_D[restrict])
 {
-    if(i7h_D->buffer != NULL) {
+    if (i7h_D->buffer != NULL) {
         free(i7h_D->buffer);
     } else {
         return I7hErrorFreeMemory;
@@ -69,7 +70,7 @@ int i7hFreeStructure(struct I7hDataStruct i7h_D[restrict])
 int getIntLength(int src_int)
 {
     int length = 1;
-    for(; src_int > 10; length++)
+    for (; src_int > 10; length++)
         src_int /= 10;
     return length;
 }
