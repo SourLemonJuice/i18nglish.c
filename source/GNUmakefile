@@ -7,6 +7,7 @@ git_commit_info = "$(shell git describe --abbrev=40 --dirty --always --long)"
 build_host_description = "Local build"
 
 # ' and " in shell is so... Ugly!!
+# And I'll use cli to overwrite them with github ci, uglier then ugly.
 
 ALL: i18nglish.out
 
