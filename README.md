@@ -99,6 +99,7 @@ Maybe I'll put them to *main.c* at later.
 
 > Todo list is for myself, not for showing off. The history todo only needs store in git history.
 
+- Unit test(only for core processor)
 - Improve the way to handle CLI flags
 
 ## Code style

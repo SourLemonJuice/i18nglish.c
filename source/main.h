@@ -16,7 +16,14 @@
 #endif
 
 /* Self define */
+#define APP_VERSION_RELEASE_BUILD false
+// release version
+#if APP_VERSION_RELEASE_BUILD
 #define APP_VERSION_STRING "ver-1.0"
+#else
+#define APP_VERSION_STRING "Development"
+#endif
+
 /*
     TODO I'm tired...
     This size use for some input string preprocessor, like fscanf() or deletePunctuations()

@@ -2,7 +2,7 @@ source_files = main.c i7h_processor.c
 executable_name = i18nglish.out
 
 # About git repo info
-git_commit_info = $(shell git describe --abbrev=40 --dirty --always --long)
+git_commit_info = $(shell git describe --abbrev=40 --dirty --tags --always --long)
 # Add more build info(remote CI or just a local PC)
 build_host_description = Not explicit declared
 
