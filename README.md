@@ -96,6 +96,10 @@ Maybe I'll put them to *main.c* at later.
 
 [Google Style Guide C++](https://google.github.io/styleguide/cppguide.html)(or just want to be)
 
+## GitHub CI
+
+![Build CI Badge](https://github.com/SourLemonJuice/i18nglish.c/actions/workflows/GitHub_CI_Build.yml/badge.svg)
+
 ## License
 
 Published Under MIT License.
