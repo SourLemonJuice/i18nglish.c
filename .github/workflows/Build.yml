@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build with make
-        run: make --directory="./source/" build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF_NAME}"
+        run: make --directory="./source/" build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}"
       - name: Upload executable file
         uses: actions/upload-artifact@v4
         with:
