@@ -7,10 +7,10 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
     inputs:
-      release_build_arg:
-        required: true
-        type: string
-        default: releaseBuild=0
+      Make_releaseBuild_arg:
+        required: false
+        type:  string
+        default: releaseBuild="0"
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
       - name: Build with make
         env:
           CI_HOST_INFO: GitHub Build Workflow
-        run: make --directory="./source/" build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}"
+        run: make --directory="./source/" build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" ${Make_releaseBuild_arg}
       - name: Upload executable file
         uses: actions/upload-artifact@v4
         with:

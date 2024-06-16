@@ -7,23 +7,28 @@
     For compiler defin flag(gcc -D)
     Those macros should be defined by compiler
  */
+// git info when building
 #ifndef APP_GIT_COMMIT_INFO
 #define APP_GIT_COMMIT_INFO "[Build ERROR] APP_GIT_COMMIT_INFO not defined"
 #endif
 
+// build host info
 #ifndef APP_BUILD_HOST_DESCRIPTION
 #define APP_BUILD_HOST_DESCRIPTION "[Build ERROR] APP_BUILD_HOST_DESCRIPTION not defined"
 #endif
 
-/* Self define */
 // switch between release build mode...
 #if APP_BUILD_RELEASE_MODE == 1
 #define APP_VERSION_STRING "ver-1.0"
-#else // ...and develop build
+#elif APP_BUILD_RELEASE_MODE == 0 // ...and develop build
 // cheating the code analyzer
 #define APP_BUILD_RELEASE_MODE 0
-#define APP_VERSION_STRING "Under Development"
+#define APP_VERSION_STRING "Development"
+#else
+#error The macro APP_BUILD_RELEASE_MODE is set to non 0/1, go check make flags.
 #endif
+
+/* Self define */
 
 /*
     TODO I'm tired...
