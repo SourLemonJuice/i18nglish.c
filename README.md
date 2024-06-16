@@ -14,12 +14,16 @@ It's just a joke.
 I'm learning C-language, so it's a great way to practice language and learn how to build CI workflow.\
 I have also learned a lot of stuff about memory manager, really thanks to this project.
 
-## Use in Command Line
+## Use in Command Line Utility
 
 ### Build
 
-Goto `source/` folder, and run `make`.\
-The executable file will named `i18nglish.out`. For now, the compiler is `clang`.
+For linux, goto `source/` folder, and run `make`.\
+The executable file will named `i18nglish.out`. At now, the compiler is `clang`.
+
+But for Microsoft Windows, I don't have too many ideas. I don't want to use MSVC because the complier's flags are very different.\
+So now, my choice is MinGW-w64 and build all exec in Linux. Run the `make i18nglish.exe` to build .exe file, as for BUGs... just ignore them.\
+Hopefully this build target will appear in the workflow soon.
 
 If need to compile a release version, run make with the argument `releaseBuild=1`.
 

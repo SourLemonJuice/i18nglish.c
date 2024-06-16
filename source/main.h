@@ -23,7 +23,7 @@
 #elif APP_BUILD_RELEASE_MODE == 0 // ...and develop build
 // cheating the code analyzer
 #define APP_BUILD_RELEASE_MODE 0
-#define APP_VERSION_STRING "Development"
+#define APP_VERSION_STRING "Develop"
 #else
 #error The macro APP_BUILD_RELEASE_MODE is set to non 0/1, go check make flags.
 #endif

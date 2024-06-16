@@ -1,5 +1,5 @@
 source_files = main.c i7h_processor.c
-executable_name = i18nglish.out
+executable_base_name = i18nglish
 
 # About git repo info
 git_commit_info = $(shell git describe --abbrev=40 --dirty --tags --always --long)
@@ -17,7 +17,15 @@ ALL: i18nglish.out
 
 i18nglish.out: $(source_files)
 	/usr/bin/clang $(source_files) \
-		--output $(executable_name) \
+		--output $(executable_base_name).out \
+		-DAPP_GIT_COMMIT_INFO="\"$(git_commit_info)\"" \
+		-DAPP_BUILD_HOST_DESCRIPTION="\"$(build_host_description)\"" \
+		-DAPP_BUILD_RELEASE_MODE="$(releaseBuild)"
+
+# just hope the clang and gcc flags are exactly the same
+i18nglish.exe: $(source_files)
+	/usr/bin/x86_64-w64-mingw32-gcc $(source_files) \
+		--output $(executable_base_name).exe \
 		-DAPP_GIT_COMMIT_INFO="\"$(git_commit_info)\"" \
 		-DAPP_BUILD_HOST_DESCRIPTION="\"$(build_host_description)\"" \
 		-DAPP_BUILD_RELEASE_MODE="$(releaseBuild)"
