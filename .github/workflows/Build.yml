@@ -25,7 +25,7 @@ jobs:
       - name: Upload executable file
         uses: actions/upload-artifact@v4
         with:
-          name: i18nglish-linux
+          name: i18nglish-Linux(.out)
           path: source/i18nglish.out
           if-no-files-found: error
           retention-days: 7
@@ -47,3 +47,10 @@ jobs:
           install: make git mingw-w64-ucrt-x86_64-clang
       - name: make with MSYS2
         run: make i18nglish.exe
+      - name: Upload executable file(.exe)
+        uses: actions/upload-artifact@v4
+        with:
+          name: i18nglish-Windows(.exe)
+          path: source/i18nglish.exe
+          if-no-files-found: error
+          retention-days: 7
