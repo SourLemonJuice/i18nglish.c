@@ -31,4 +31,4 @@ i18nglish.exe: $(source_files)
 		-DAPP_BUILD_RELEASE_MODE="$(releaseBuild)"
 
 clean:
-	rm -i ./$(executable_name)
+	rm -i ./$(executable_base_name).*

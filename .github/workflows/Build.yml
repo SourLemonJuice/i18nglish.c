@@ -12,13 +12,12 @@ on:
         type:  string
         default: releaseBuild=0
 
-defaults:
-  run:
-    working-directory: ./source/
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./source/
     steps:
       - uses: actions/checkout@v4
       - name: Build with make
@@ -29,6 +28,24 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: i18nglish-linux
-          path: ./source/i18nglish.out
+          path: ./i18nglish.out
           if-no-files-found: error
           retention-days: 7
+
+  # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
+  # https://www.msys2.org/docs/ci/
+  build-for-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./source/
+        shell: msys2bash.cmd
+    steps:
+      - uses: actions/checkout@v4
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: git mingw-w64-ucrt-x86_64-gcc
+      - name: make with MSYS2
+        run: make i18nglish.exe
