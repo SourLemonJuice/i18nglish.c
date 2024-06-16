@@ -8,20 +8,22 @@ It's just a joke.
 
 ## What's getting better
 
-- Faster, of course. It's a C program not Python script.
+- Faster, of course. It's a C program not a Python script.
 - Yeah... Anyway, it's built with C.
 
 I'm learning C-language, so it's a great way to practice language and learn how to build CI workflow.\
-I have also learned a lot of stuff about memory mamager, really thanks to this project.
+I have also learned a lot of stuff about memory manager, really thanks to this project.
 
 ## Use in Command Line
 
 ### Build
 
 Goto `source/` folder, and run `make`.\
-The executable file will named `i18nglish.out`.
+The executable file will named `i18nglish.out`. For now, the compiler is `clang`.
 
-For now, the compiler is `clang`.
+If need to compile a release version, run make with the argument `releaseBuild=1`.
+
+In addition, GitHub Workflow may already have the latest exec artifact that can be download.
 
 ### How to use
 
@@ -43,7 +45,7 @@ All flags/arguments are unstabled.
 --help | --version | -- <string> <...> | --source_file <filePath> | --stdin
 ```
 
-NOTE: All flags are unstabled.
+NOTE: All flags are unstable.
 
 ### Precautions
 
@@ -105,9 +107,9 @@ Maybe I'll put them to *main.c* at later.
 ## Code style
 
 Variable names reference [Google Style Guide C++](https://google.github.io/styleguide/cppguide.html)(or just want to be).\
-Most block styles are from Linux kernal.
+Most block styles are from Linux kernel.
 
-The clang-format config has already been added to the repo, but maybe still incomplete.
+The clang-format config has already been added to the repo, but it may still be incomplete.
 
 ## Just put something at last
 

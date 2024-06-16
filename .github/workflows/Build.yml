@@ -10,7 +10,7 @@ on:
       Make_releaseBuild_arg:
         required: false
         type:  string
-        default: releaseBuild="0"
+        default: releaseBuild=0
 
 jobs:
   build:
