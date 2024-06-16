@@ -4,7 +4,7 @@ Or AKA `i7h.c`.\
 This is a transplant of [RimoChan/i7h](https://github.com/RimoChan/i7h), to support c language.\
 **Please** check the README of the original repository to get more details about `i18nglish`.
 
-It's just a joke.
+It's just a English joke program, bug did you want to look at the code details?
 
 ## What's getting better
 
@@ -14,6 +14,10 @@ It's just a joke.
 I'm learning C-language, so it's a great way to practice language and learn how to build CI workflow.\
 I have also learned a lot of stuff about memory manager, really thanks to this project.
 
+This project is really added a lot of useful peripheral components, like CI/code-style/medium-Makefile/WindowsAndUnix-Build
+
+A great gift for me.
+
 ## Use in Command Line Utility
 
 ### Build
@@ -22,12 +26,11 @@ For linux, goto `source/` folder, and run `make`.\
 The executable file will named `i18nglish.out`. At now, the compiler is `clang`.
 
 But for Microsoft Windows, I don't have too many ideas. I don't want to use MSVC because the complier's flags are very different.\
-So now, my choice is MinGW-w64 and build all exec in Linux. Run the `make i18nglish.exe` to build .exe file, as for BUGs... just ignore them.\
-Hopefully this build target will appear in the workflow soon.
+So now, my choice is MinGW-w64(MSYS2) in Windows OS. Goto MSYS2 bash and run `make i18nglish.exe` to build *.exe* file, as for garbled-character Bug... just ignore them.
 
 If need to compile a release version, run make with the argument `releaseBuild=1`.
 
-In addition, GitHub Workflow may already have the latest exec artifact that can be download.
+In addition, GitHub Workflow and Release may already have the latest executable artifact that can be download(Windows/Linux).
 
 ### How to use
 
