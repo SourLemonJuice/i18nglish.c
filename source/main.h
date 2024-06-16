@@ -16,12 +16,13 @@
 #endif
 
 /* Self define */
-#define APP_VERSION_RELEASE_BUILD false
-// release version
-#if APP_VERSION_RELEASE_BUILD
+// switch between release build mode...
+#if APP_BUILD_RELEASE_MODE == 1
 #define APP_VERSION_STRING "ver-1.0"
-#else
-#define APP_VERSION_STRING "Development"
+#else // ...and develop build
+// cheating the code analyzer
+#define APP_BUILD_RELEASE_MODE 0
+#define APP_VERSION_STRING "Under Development"
 #endif
 
 /*

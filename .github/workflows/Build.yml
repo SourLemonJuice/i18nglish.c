@@ -1,11 +1,16 @@
 name: Build CI
 
 on:
-  workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      release_build_arg:
+        required: true
+        type: string
+        default: releaseBuild=0
 
 jobs:
   build:

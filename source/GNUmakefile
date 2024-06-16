@@ -10,13 +10,17 @@ build_host_description = Not explicit declared
 # And I'll use cli to overwrite them with github ci, uglier then ugly.
 # It took me 6 commits to figure this out.
 
+# 1 == enabled
+releaseBuild = 0
+
 ALL: i18nglish.out
 
 i18nglish.out: $(source_files)
 	/usr/bin/clang $(source_files) \
 		--output $(executable_name) \
 		-DAPP_GIT_COMMIT_INFO="\"$(git_commit_info)\"" \
-		-DAPP_BUILD_HOST_DESCRIPTION="\"$(build_host_description)\""
+		-DAPP_BUILD_HOST_DESCRIPTION="\"$(build_host_description)\"" \
+		-DAPP_BUILD_RELEASE_MODE="$(releaseBuild)"
 
 clean:
 	rm -i ./$(executable_name)
