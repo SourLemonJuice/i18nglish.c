@@ -39,7 +39,7 @@ jobs:
     defaults:
       run:
         working-directory: ./source/
-        shell: msys2bash.cmd
+        shell: msys2 {0}
     steps:
       - uses: actions/checkout@v4
       - uses: msys2/setup-msys2@v2
