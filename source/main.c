@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
     for (int i = 1; i < argc; i++) {
         // --help
         if (strcmp(argv[i], "--help") == 0) {
-            puts("All flags/arguments are unstabled.");
+            puts("All flags/arguments are unstable.");
             puts("--help | --version | -- <string> <...> | --source_file <filePath> | --stdin");
             exit(AppExitOk);
         }

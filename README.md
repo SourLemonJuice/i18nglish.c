@@ -4,7 +4,7 @@ Or AKA `i7h.c`.\
 This is a transplant of [RimoChan/i7h](https://github.com/RimoChan/i7h), to support c language.\
 **Please** check the README of the original repository to get more details about `i18nglish`.
 
-It's just a English joke program, bug did you want to look at the code details?
+It's just an English joke program, but did you want to look at the code details?
 
 ## What's getting better
 
@@ -14,7 +14,7 @@ It's just a English joke program, bug did you want to look at the code details?
 I'm learning C-language, so it's a great way to practice language and learn how to build CI workflow.\
 I have also learned a lot of stuff about memory manager, really thanks to this project.
 
-This project is really added a lot of useful peripheral components, like CI/code-style/medium-Makefile/WindowsAndUnix-Build
+This project really added a lot of useful peripheral components, like CI/code-style/medium-Makefile/WindowsAndUnix-Build
 
 A great gift for me.
 
@@ -26,7 +26,7 @@ For linux, goto `source/` folder, and run `make`.\
 The executable file will named `i18nglish.out`. At now, the compiler is `clang`.
 
 But for Microsoft Windows, I don't have too many ideas. I don't want to use MSVC because the complier's flags are very different.\
-So now, my choice is MinGW-w64(MSYS2) in Windows OS. Goto MSYS2 bash and run `make i18nglish.exe` to build *.exe* file, as for garbled-character Bug... just ignore them.
+So now, my choice is MinGW-w64(MSYS2) in Windows OS. Goto MSYS2 bash and run `make i18nglish.exe` to build the *.exe* file, as for garbled-character Bug... just ignore them.
 
 If need to compile a release version, run make with the argument `releaseBuild=1`.
 
@@ -37,7 +37,7 @@ In addition, GitHub Workflow and Release may already have the latest executable 
 #### Simply start
 
 You can run it with `--help` to get all flags.\
-um... In simplest case it looked like...
+um... In simplest case, it looked like...
 
 ```text
 $ ./i18nglish.out -- hello world
@@ -48,7 +48,7 @@ h3o w3d
 
 ```text
 $ ./i18nglish.out --help
-All flags/arguments are unstabled.
+All flags/arguments are unstable.
 --help | --version | -- <string> <...> | --source_file <filePath> | --stdin
 ```
 
@@ -65,8 +65,8 @@ Only use for ASCII(single char type) characters, don't do this:
 ./i18nglish.out -- — 或者这种字符串
 ```
 
-If it's happend, I won't care of them.\
-Maybe, error looked like: `�16�`\
+If it happened, I wouldn't care of them.\
+Maybe, the error looked like: `�16�`\
 This program just an English joke, so it's should be fine.
 
 ## Move main functions to other project
@@ -82,7 +82,7 @@ int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[]);
 And the structure `I7hDataStruct`, it's like a buffer of processor.
 
 When the `i7hProcessor()` is called, it'll auto resize the buffer in structure.\
-Caller doesn't need to free the buffer in every loop. But **must**:\
+The caller doesn't need to free the buffer in every loop. But **must**:\
 call `i7hInitStructure()` at the START of the loop\
 call `i7hFreeStructure()` at the END of the loop to free them
 
@@ -106,7 +106,7 @@ Maybe I'll put them to *main.c* at later.
 
 ## Todo List
 
-> Todo list is for myself, not for showing off. The history todo only needs store in git history.
+> Todo list is for myself, not for showing off. The history todo only needs stored in git history.
 
 - Unit test(only for core processor)
 - Improve the way to handle CLI flags
