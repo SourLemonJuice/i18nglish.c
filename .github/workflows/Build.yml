@@ -12,19 +12,46 @@ on:
         type:  string
         default: releaseBuild=0
 
+env:
+  CI_HOST_INFO: GitHub Build Workflow
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build with make
-        env:
-          CI_HOST_INFO: GitHub Build Workflow
-        run: make --directory="./source/" build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" ${Make_releaseBuild_arg}
+      - name: Build with make in Linux(Ubuntu)
+        working-directory: ./source/
+        run: make i18nglish.out build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" ${Make_releaseBuild_arg}
       - name: Upload executable file
         uses: actions/upload-artifact@v4
         with:
-          name: i18nglish-linux
-          path: ./source/i18nglish.out
+          name: i18nglish-Linux(.out)
+          path: source/i18nglish.out
           if-no-files-found: error
-          retention-days: 1
+          retention-days: 7
+
+  # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
+  # https://www.msys2.org/docs/ci/
+  build-for-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./source/
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: make git mingw-w64-ucrt-x86_64-clang
+      - name: Build with make in Windows(MSYS2)
+        run: make i18nglish.exe build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" ${Make_releaseBuild_arg}
+      - name: Upload executable file(.exe)
+        uses: actions/upload-artifact@v4
+        with:
+          name: i18nglish-Windows(.exe)
+          path: source/i18nglish.exe
+          if-no-files-found: error
+          retention-days: 7
