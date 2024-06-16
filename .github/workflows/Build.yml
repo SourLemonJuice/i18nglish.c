@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build with make
+      - name: Build with make in Linux(Ubuntu)
         working-directory: ./source/
         env:
           CI_HOST_INFO: GitHub Build Workflow
@@ -45,8 +45,8 @@ jobs:
           msystem: UCRT64
           update: true
           install: make git mingw-w64-ucrt-x86_64-clang
-      - name: make with MSYS2
-        run: make i18nglish.exe
+      - name: Build with make in Windows(MSYS2)
+        run: make i18nglish.exe build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" ${Make_releaseBuild_arg}
       - name: Upload executable file(.exe)
         uses: actions/upload-artifact@v4
         with:

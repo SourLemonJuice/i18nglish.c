@@ -184,7 +184,7 @@ int main(int argc, char *argv[])
         if (strcmp(argv[i], "--version") == 0) {
             printf("==== Versions ====\n");
             printf("App version:\t%s\n", APP_VERSION_STRING);
-            printf("Build Date:\t%s, Time: %s\n", __DATE__, __TIME__);
+            printf("Build Date:\t%s\n", APP_BUILD_DATE_UTC);
             printf("Git commit:\t%s\n", APP_GIT_COMMIT_INFO);
             printf("Compiler ver:\t%s\n", __VERSION__); // __VERSION__ is not a std macro.
             printf("Build host:\t%s\n", APP_BUILD_HOST_DESCRIPTION);
