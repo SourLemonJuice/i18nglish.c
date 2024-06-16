@@ -24,7 +24,7 @@ i18nglish.out: $(source_files)
 
 # just hope the clang and gcc flags are exactly the same
 i18nglish.exe: $(source_files)
-	/usr/bin/x86_64-w64-mingw32-gcc $(source_files) \
+	clang $(source_files) \
 		--output $(executable_base_name).exe \
 		-DAPP_GIT_COMMIT_INFO="\"$(git_commit_info)\"" \
 		-DAPP_BUILD_HOST_DESCRIPTION="\"$(build_host_description)\"" \

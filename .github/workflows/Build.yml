@@ -15,12 +15,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./source/
     steps:
       - uses: actions/checkout@v4
       - name: Build with make
+        working-directory: ./source/
         env:
           CI_HOST_INFO: GitHub Build Workflow
         run: make i18nglish.out build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" ${Make_releaseBuild_arg}
@@ -28,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: i18nglish-linux
-          path: ./i18nglish.out
+          path: source/i18nglish.out
           if-no-files-found: error
           retention-days: 7
 
@@ -46,6 +44,6 @@ jobs:
         with:
           msystem: UCRT64
           update: true
-          install: make git mingw-w64-ucrt-x86_64-gcc
+          install: make git mingw-w64-ucrt-x86_64-clang
       - name: make with MSYS2
         run: make i18nglish.exe
