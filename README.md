@@ -40,7 +40,7 @@ You can run it with `--help` to get all flags.\
 um... In simplest case, it looked like...
 
 ```text
-$ ./i18nglish.out -- hello world
+$ ./i18nglish.out --mode arguments hello world
 h3o w3d
 ```
 
@@ -48,11 +48,14 @@ h3o w3d
 
 ```text
 $ ./i18nglish.out --help
-All flags/arguments are unstable.
---help | --version | -- <string> <...> | --source_file <filePath> | --stdin
-```
+NOTE: Flags are just half stable
+Usage: i18nglish [--version] [--help] --mode <MODE> [args]
 
-NOTE: All flags are unstable.
+MODE(for set input source):
+        arguments       Use all arguments after it
+        file <path>     Read a text file
+        stdin   Same 'file' but use stdin
+```
 
 ### Precautions
 
@@ -62,7 +65,7 @@ Although there is no **word**(separated with `space` and `\n`) as long as this.
 Only use for ASCII(single char type) characters, don't do this:
 
 ```shell
-./i18nglish.out -- — 或者这种字符串
+./i18nglish.out --mode arguments 这种字符串 或者 —
 ```
 
 If it happened, I wouldn't care of them.\
@@ -109,7 +112,6 @@ Maybe I'll put them to *main.c* at later.
 > Todo list is for myself, not for showing off. The history todo only needs stored in git history.
 
 - Unit test(only for core processor)
-- Improve the way to handle CLI flags
 
 ## Code style
 

@@ -193,8 +193,8 @@ int parseCliFlag(struct AppCliFlagConfig *flag_data, int argc, char *argv[])
                 return AppExitGetFlagError;
             }
 
-            // argument
-            if (strcmp(argv[i], "argument") == 0) {
+            // arguments
+            if (strcmp(argv[i], "arguments") == 0) {
                 flag_data->main_mode = AppInputMode_ParseArgument;
                 i++;
                 if (i + 1 <= argc) {
@@ -247,7 +247,7 @@ int main(int argc, char *argv[])
         printf("NOTE: Flags are just half stable\n");
         printf("Usage: i18nglish [--version] [--help] --mode <MODE> [args]\n");
         printf("\nMODE(for set input source):\n");
-        printf("\targument\tUse all arguments after it\n");
+        printf("\targuments\tUse all arguments after it\n");
         printf("\tfile <path>\tRead a text file\n");
         printf("\tstdin\tSame 'file' but use stdin\n");
         exit(AppExitOk);
