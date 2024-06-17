@@ -52,7 +52,7 @@ int i7hProcessorArgv(int argc, char *argv[], int argc_begin)
 {
     if (argc_begin > argc - 1) {
         puts("ERROR: Parameter invalid.");
-        exit(AppExitGetFlag);
+        exit(AppExitGetFlagError);
     }
 
     // this buffer use to store argv without punctuation
@@ -107,7 +107,7 @@ int i7hProcessorFile(char *file_path)
             ungetc(next_char_tmp, file_handle); // this char just used for detect EOF
 
         /*  great debug code
-            printf("%d\n", fscanf(file_handle, "%s", next_string)); */
+                    printf("%d\n", fscanf(file_handle, "%s", next_string)); */
         fscanf(file_handle, "%s", next_string);
         // delete punctuations
         if (deletePunctuations(next_string, INPUT_BUFFER_SIZE, next_string_nopunct, INPUT_BUFFER_SIZE) != 0) {
@@ -164,62 +164,121 @@ int i7hProcessorStdin(void)
     return 0;
 }
 
-int main(int argc, char *argv[])
+int parseCliFlag(struct AppCliFlagConfig *flag_data, int argc, char *argv[])
 {
-    // handle CLI inputs
     if (argc < 2) {
         puts("ERROR: Need some arguments, use \"--help\" flag to check more info.");
-        exit(AppExitGetFlag);
-    }
-    // flags
-    // TODO This handle way was not good, right?
-    for (int i = 1; i < argc; i++) {
-        // --help
-        if (strcmp(argv[i], "--help") == 0) {
-            puts("All flags/arguments are unstable.");
-            puts("--help | --version | -- <string> <...> | --source_file <filePath> | --stdin");
-            exit(AppExitOk);
-        }
-        // --version
-        if (strcmp(argv[i], "--version") == 0) {
-            printf("==== Versions ====\n");
-            printf("App version:\t%s\n", APP_VERSION_STRING);
-            printf("Build Date:\t%s\n", APP_BUILD_DATE_UTC);
-            printf("Git commit:\t%s\n", APP_GIT_COMMIT_INFO);
-            printf("Compiler ver:\t%s\n", __VERSION__); // __VERSION__ is not a std macro.
-            printf("Build host:\t%s\n", APP_BUILD_HOST_DESCRIPTION);
-            printf("==== Author info ====\n");
-            printf("Developed by 酸柠檬猹/SourLemonJuice 2024\n");
-            printf("Published under MIT license\n");
-            exit(AppExitOk);
-        }
-        // --source_file
-        if (strcmp(argv[i], "--source_file") == 0) {
-            i++;
-            if (i + 1 <= argc) {
-                i7hProcessorFile(argv[i]);
-            } else {
-                puts("Flag value ERROR");
-                exit(AppExitGetFlag);
-            }
-            exit(AppExitOk);
-        }
-        // --stdin
-        if (strcmp(argv[i], "--stdin") == 0) {
-            i7hProcessorStdin();
-            exit(AppExitOk);
-        }
-        // --
-        if (strcmp(argv[i], "--") == 0) {
-            i7hProcessorArgv(argc, argv, ++i);
-            exit(AppExitOk);
-        }
-        // default
-        puts("ERROR: Invalid Flag");
-        exit(AppExitGetFlag);
+        return AppExitGetFlagError;
     }
 
-    // last default
-    puts("ERROR: Unknow Error");
+    for (int i = 1; i + 1 <= argc; i++) {
+        // --help
+        if (strcmp(argv[i], "--help") == 0) {
+            flag_data->main_mode = AppInputMode_ShowHelp;
+            return AppExitOk;
+        }
+
+        // --version
+        if (strcmp(argv[i], "--version") == 0) {
+            flag_data->main_mode = AppInputMode_ShowVersion;
+            return AppExitOk;
+        }
+
+        // --mode
+        if (strcmp(argv[i], "--mode") == 0) {
+            i++;
+            // error detect
+            if (not(i + 1 <= argc)) {
+                printf("No value of --mode flag\n");
+                return AppExitGetFlagError;
+            }
+
+            // argument
+            if (strcmp(argv[i], "argument") == 0) {
+                flag_data->main_mode = AppInputMode_ParseArgument;
+                i++;
+                if (i + 1 <= argc) {
+                    flag_data->output_argc_begin = i;
+                } else {
+                    printf("Invalid/Null value of '--mode argument'\n");
+                    return AppExitFlagValueError;
+                }
+                return AppExitOk;
+            }
+            // file
+            if (strcmp(argv[i], "file") == 0) {
+                flag_data->main_mode = AppInputMode_ParseFile;
+                i++;
+                if (i + 1 <= argc) {
+                    flag_data->output_file_path = argv[i];
+                } else {
+                    printf("Invalid/Null value of '--mode file'\n");
+                    return AppExitFlagValueError;
+                }
+                return AppExitOk;
+            }
+            // stdin
+            if (strcmp(argv[i], "stdin") == 0) {
+                flag_data->main_mode = AppInputMode_ParseStdin;
+                return AppExitOk;
+            }
+            // default
+            printf("Invalid/Null value of '--mode'\n");
+            return AppExitFlagValueError;
+        }
+        // default
+        printf("ERROR: Invalid Flag '%s'\n", argv[i]);
+        return AppExitGetFlagError;
+    }
+
+    return 0;
+}
+
+int main(int argc, char *argv[])
+{
+    // parse flags
+    struct AppCliFlagConfig flag_data;
+    int parse_flag_rsult = parseCliFlag(&flag_data, argc, argv);
+    if (parse_flag_rsult != AppExitOk)
+        exit(parse_flag_rsult);
+
+    switch (flag_data.main_mode) {
+    case AppInputMode_ShowHelp:
+        printf("NOTE: Flags are just half stable\n");
+        printf("Usage: i18nglish [--version] [--help] --mode <MODE> [args]\n");
+        printf("\nMODE(for set input source):\n");
+        printf("\targument\tUse all arguments after it\n");
+        printf("\tfile <path>\tRead a text file\n");
+        printf("\tstdin\tSame 'file' but use stdin\n");
+        exit(AppExitOk);
+        break;
+    case AppInputMode_ShowVersion:
+        printf("==== Versions ====\n");
+        printf("App version:\t%s\n", APP_VERSION_STRING);
+        printf("Build Date:\t%s\n", APP_BUILD_DATE_UTC);
+        printf("Git commit:\t%s\n", APP_GIT_COMMIT_INFO);
+        printf("Compiler ver:\t%s\n", __VERSION__); // __VERSION__ is not a std macro.
+        printf("Build host:\t%s\n", APP_BUILD_HOST_DESCRIPTION);
+        printf("==== Author info ====\n");
+        printf("Developed by 酸柠檬猹/SourLemonJuice 2024\n");
+        printf("Published under MIT license\n");
+        exit(AppExitOk);
+        break;
+    case AppInputMode_ParseArgument:
+        i7hProcessorArgv(argc, argv, flag_data.output_argc_begin);
+        exit(AppExitOk);
+        break;
+    case AppInputMode_ParseStdin:
+        i7hProcessorStdin();
+        exit(AppExitOk);
+        break;
+    case AppInputMode_ParseFile:
+        i7hProcessorFile(flag_data.output_file_path);
+        exit(AppExitOk);
+        break;
+    }
+
+    // at last print some ERROR by default
+    puts("ERROR: Unknow Error at 'main'");
     exit(AppExitStd);
 }

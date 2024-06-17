@@ -2,6 +2,7 @@
 #define APP_MAIN_H_
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 /*
     For compiler defin flag(gcc -D)
@@ -42,13 +43,34 @@
  */
 #define INPUT_BUFFER_SIZE (1024 * 1)
 
-/* Enumerates */
 enum AppExitType {
     AppExitOk = EXIT_SUCCESS,
     AppExitStd = EXIT_FAILURE,
-    AppExitGetFlag,
+    AppExitGetFlagError,
+    AppExitFlagValueError,
     MainProcessorError,
     AppPreProcessorError,
+};
+
+enum AppCommandFlagMode {
+    AppInputMode_ParseArgument,
+    AppInputMode_ParseFile,
+    AppInputMode_ParseStdin,
+    AppInputMode_ShowHelp,
+    AppInputMode_ShowVersion,
+};
+
+// TODO TBD feature
+enum AppCommandOutputMode {
+    AppOutputMode_Stdout,
+    AppOutputMode_File,
+};
+
+struct AppCliFlagConfig {
+    enum AppCommandFlagMode main_mode;
+    enum AppCommandOutputMode output_mode;
+    char *output_file_path;
+    int output_argc_begin;
 };
 
 #endif
