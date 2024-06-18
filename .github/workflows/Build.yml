@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
     inputs:
-      Make_releaseBuild_arg:
+      make_build_arg1:
         required: false
         type:  string
         default: releaseBuild=0
@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build with make in Linux(Ubuntu)
-        run: make i18nglish.out build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" ${{ inputs.Make_releaseBuild_arg }}
+        run: make i18nglish.out build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" "${{ inputs.make_build_arg1 }}"
       - name: End test(script)
         run: ./full_test.sh
       - name: Build unit test
@@ -46,8 +46,8 @@ jobs:
     runs-on: windows-latest
     defaults:
       run:
-        working-directory: ./source/
         shell: msys2 {0}
+        working-directory: ./source/
     steps:
       - uses: actions/checkout@v4
       - uses: msys2/setup-msys2@v2
@@ -56,7 +56,11 @@ jobs:
           update: true
           install: make git mingw-w64-ucrt-x86_64-clang
       - name: Build with make in Windows(MSYS2)
-        run: make i18nglish.exe build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" ${{ inputs.Make_releaseBuild_arg }}
+        run: make i18nglish.exe build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" "${{ inputs.make_build_arg1 }}"
+      - name: Build unit test
+        run: make test
+      - name: Unit testing
+        run: ./test.out
       - name: Upload executable file(.exe)
         uses: actions/upload-artifact@v4
         with:
