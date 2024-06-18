@@ -18,11 +18,20 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./source/
+
     steps:
       - uses: actions/checkout@v4
       - name: Build with make in Linux(Ubuntu)
-        working-directory: ./source/
         run: make i18nglish.out build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" ${{ inputs.Make_releaseBuild_arg }}
+      - name: End test(script)
+        run: ./full_test.sh
+      - name: Build unit test
+        run: make test
+      - name: Unit testing
+        run: ./test.out
       - name: Upload executable file
         uses: actions/upload-artifact@v4
         with:

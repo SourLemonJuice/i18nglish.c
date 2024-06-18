@@ -12,9 +12,11 @@ void test_i7hProcessor(void)
     assert(i7h_D.buffer != NULL);
 
     char *test_example[] = {"hello,", "world.", "-,hello", "--world,.", "---", "lastOneNormal"};
+    char *test_example_answer[] = {"h4,", "w4.", "-5o", "-7.", "-1-", "l11l"};
 
     for (int i = 0; i < 6; i++) {
         assert(i7hProcessor(&i7h_D, test_example[i]) == 0);
+        assert(strcmp(i7h_D.buffer, test_example_answer[i]) == 0);
         printf("i7hProcessor() output: %s\n", i7h_D.buffer);
     }
 
