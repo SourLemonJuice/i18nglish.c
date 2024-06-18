@@ -2,7 +2,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "i7h_processor.h"
+#include "i7h/i7h_processor.h"
 
 void test_i7hProcessor(void)
 {

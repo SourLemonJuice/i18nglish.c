@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "main.h"
+
 /* private functions prototype */
 // get the length of a integer
 int getIntLength(int src_int);

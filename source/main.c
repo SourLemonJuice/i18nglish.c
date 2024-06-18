@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "i7h_processor.h"
+#include "i7h/i7h_processor.h"
 
 /*
     This func will return an exit code,

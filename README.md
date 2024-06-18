@@ -74,7 +74,7 @@ This program just an English joke, so it's should be fine.
 
 ## Move main functions to other project
 
-All the functions/defines you need are in *source/i7h_processor.c / .h*
+All the functions/defines you need are in *source/i7h/i7h_processor.c and .h*
 
 The main process function is `i7hProcessor()`, this is its prototype:
 

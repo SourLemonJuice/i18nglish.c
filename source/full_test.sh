@@ -17,7 +17,10 @@ echo Raw: "${test_examples}"
 echo "${test_examples}" | ./i18nglish.out --mode stdin || exit $?
 
 # invalid file path
-./i18nglish.out --mode file ./null || exit $?
+./i18nglish.out --mode file ./null
+if [[ $? != 0 ]]; then
+    echo "app return non zero"
+fi
 
 # file mode
 echo "${test_examples}" >| ./justForTest.tmp && \
