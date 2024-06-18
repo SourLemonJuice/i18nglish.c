@@ -40,5 +40,9 @@ i18nglish.exe: $(source_files)
 		--output $(executable_base_name).exe \
 		$(CFlag_clang_define)
 
+test: unit_test.c i7h_processor.c
+	/usr/bin/clang unit_test.c i7h_processor.c \
+		--output test.out
+
 clean:
 	rm -i ./$(executable_base_name).*

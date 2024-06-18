@@ -106,8 +106,6 @@ int i7hProcessorFile(char *file_path)
         else
             ungetc(next_char_tmp, file_handle); // this char just used for detect EOF
 
-        /*  great debug code
-                    printf("%d\n", fscanf(file_handle, "%s", next_string)); */
         fscanf(file_handle, "%s", next_string);
         // delete punctuations
         if (deletePunctuations(next_string, INPUT_BUFFER_SIZE, next_string_nopunct, INPUT_BUFFER_SIZE) != 0) {
