@@ -88,6 +88,10 @@ int i7hProcessorFile(char *file_path)
 {
     // file stuff
     FILE *file_handle = fopen(file_path, "r");
+    if (file_handle == NULL) {
+        printf("ERROR: File con't open\n");
+        exit(AppExitStd);
+    }
     char next_char_tmp;
     char next_string[INPUT_BUFFER_SIZE];
     char next_string_nopunct[INPUT_BUFFER_SIZE];

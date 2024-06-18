@@ -6,7 +6,7 @@ if [[ ${OSTYPE} != "linux-gnu" ]]; then
 fi
 
 # remember, keep other command safe, but not this target. It's a Test.
-test_examples="hello, world. -,hello --world,. --- lastOneNormal"
+test_examples="'hello, world. -,hello --world,. --- lastOneNormal'"
 
 echo Raw: "${test_examples}"
 
