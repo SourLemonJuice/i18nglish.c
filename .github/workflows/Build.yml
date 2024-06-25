@@ -15,23 +15,32 @@ on:
 env:
   CI_HOST_INFO: GitHub Build Workflow
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./source/
+defaults:
+  run:
+    working-directory: source/
 
+jobs:
+  Unit-Testing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build unit test
+        run: make test.out
+      - name: Unit testing
+        run: ./test.out
+      - name: Upload unit-test exec file
+        uses: actions/upload-artifact@v4
+        with:
+          name: i18nglish-unit-test-linux
+          path: source/test.out
+
+  Build-for-Linux:
+    runs-on: ubuntu-latest
+    needs: [Unit-Testing]
     steps:
       - uses: actions/checkout@v4
       - name: Build with make in Linux(Ubuntu)
-        run: make i18nglish.out build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" "${{ inputs.make_build_arg1 }}"
-      - name: End test(script)
-        run: ./full_test.sh
-      - name: Build unit test
-        run: make test
-      - name: Unit testing
-        run: ./test.out
+        run: make i18nglish.out build_host_description="${{ env.CI_HOST_INFO }} ID:${{ github.run_id }} for ${{ github.ref }}" ${{ inputs.make_build_arg1 }}
       - name: Upload executable file
         uses: actions/upload-artifact@v4
         with:
@@ -40,14 +49,28 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+  End-to-End-Testing:
+    runs-on: ubuntu-latest
+    needs: [Unit-Testing, Build-for-Linux]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download artifact(Linux)
+        uses: actions/download-artifact@v4
+        with:
+          name: i18nglish-Linux(.out)
+          path: source/
+      - name: End to End test(script)
+        run: ./full_test.sh
+
   # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
   # https://www.msys2.org/docs/ci/
-  build-for-windows:
+  Build-for-Windows:
     runs-on: windows-latest
+    needs: [Unit-Testing, End-to-End-Testing, Build-for-Linux]
     defaults:
       run:
         shell: msys2 {0}
-        working-directory: ./source/
+        working-directory: source/
     steps:
       - uses: actions/checkout@v4
       - uses: msys2/setup-msys2@v2
@@ -56,11 +79,7 @@ jobs:
           update: true
           install: make git mingw-w64-ucrt-x86_64-clang
       - name: Build with make in Windows(MSYS2)
-        run: make i18nglish.exe build_host_description="${CI_HOST_INFO} ID:${GITHUB_RUN_ID} for ${GITHUB_REF}" "${{ inputs.make_build_arg1 }}"
-      - name: Build unit test
-        run: make test
-      - name: Unit testing
-        run: ./test.out
+        run: make i18nglish.exe build_host_description="${{ env.CI_HOST_INFO }} ID:${{ github.run_id }} for ${{ github.ref }}" ${{ inputs.make_build_arg1 }}
       - name: Upload executable file(.exe)
         uses: actions/upload-artifact@v4
         with:

@@ -24,7 +24,7 @@ CFlag_clang += -DAPP_BUILD_HOST_DESCRIPTION="\"$(build_host_description)\""
 CFlag_clang += -DAPP_BUILD_RELEASE_MODE="$(releaseBuild)"
 CFlag_clang += -DAPP_BUILD_DATE_UTC="\"$(build_date_UTC)\""
 
-ALL: i18nglish.out
+default: i18nglish.out
 
 i18nglish.out: $(source_files)
 	/usr/bin/clang $(source_files) \
@@ -41,10 +41,10 @@ i18nglish.exe: $(source_files)
 		--output $(executable_base_name).exe \
 		$(CFlag_clang)
 
-test: unit_test.c i7h/i7h_processor.c
+test.out: unit_test.c i7h/i7h_processor.c
 	/usr/bin/clang unit_test.c i7h/i7h_processor.c \
 		--output test.out \
 		$(CFlag_clang)
 
-clean:
+clear:
 	rm -i ./$(executable_base_name).*

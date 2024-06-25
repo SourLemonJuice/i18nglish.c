@@ -8,6 +8,8 @@ fi
 # remember, keep other command safe, but not this target. It's a Test.
 test_examples="'hello, world. -,hello --world,. --- lastOneNormal'"
 
+chmod +x ./i18nglish.out | exit $?
+
 echo Raw: "${test_examples}"
 
 # args mode
