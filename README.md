@@ -26,11 +26,11 @@ For linux, goto `source/` folder, and run `make`.\
 The executable file will named `i18nglish.out`. At now, the compiler is `clang`.
 
 But for Microsoft Windows, I don't have too many ideas. I don't want to use MSVC because the complier's flags are very different.\
-So now, my choice is MinGW-w64(MSYS2) in Windows OS. Goto MSYS2 bash and run `make i18nglish.exe` to build the *.exe* file, as for garbled-character Bug... just ignore them.
+So now, my choice is MinGW-w64(MSYS2) in Windows OS. Goto MSYS2 bash and run `make i18nglish.exe` to build the *.exe* file.
 
 If need to compile a release version, run make with the argument `releaseBuild=1`.
 
-In addition, GitHub Workflow and Release may already have the latest executable artifact that can be download(Windows/Linux).
+In addition, GitHub Workflow and Release may already have the latest executable artifact that can be download(for Windows/Linux).
 
 ### How to use
 

@@ -2,6 +2,7 @@
 
 #include <ctype.h>
 #include <iso646.h>
+#include <locale.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -238,6 +239,9 @@ int parseCliFlag(struct AppCliFlagConfig *flag_data, int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
+    // set locale
+    setlocale(LC_ALL, "en_US.UTF-8");
+
     // parse flags
     struct AppCliFlagConfig flag_data;
     int parse_flag_rsult = parseCliFlag(&flag_data, argc, argv);
