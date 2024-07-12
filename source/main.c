@@ -255,7 +255,7 @@ int main(int argc, char *argv[])
         printf("\nMODE(for set input source):\n");
         printf("\targuments\tUse all arguments after it\n");
         printf("\tfile <path>\tRead a text file\n");
-        printf("\tstdin\tSame 'file' but use stdin\n");
+        printf("\tstdin\t\tSame 'file' but use stdin\n");
         exit(AppExitOk);
         break;
     case AppInputMode_ShowVersion:
