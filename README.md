@@ -4,17 +4,17 @@ Or AKA `i7h.c`.\
 This is a transplant of [RimoChan/i7h](https://github.com/RimoChan/i7h), to support c language.\
 **Please** check the README of the original repository to get more details about `i18nglish`.
 
-It's just an English joke program, but did you want to look at the code details?
+Anyway, it's just an English joke program.
 
 ## What's getting better
 
 - Faster, of course. It's a C program not a Python script.
 - Yeah... Anyway, it's built with C.
 
-I'm learning C-language, so it's a great way to practice language and learn how to build CI workflow.\
+I'm learning C language, so it's a great way to practice language and learn how to build CI workflow.\
 I have also learned a lot of stuff about memory manager, really thanks to this project.
 
-This project really added a lot of useful peripheral components, like CI/code-style/medium-Makefile/WindowsAndUnix-Build
+This project really added a lot of useful peripheral components, like CI, code style, medium makefile, Windows and Linux build.
 
 A great gift for me.
 
@@ -39,8 +39,8 @@ In addition, GitHub Workflow and Release may already have the latest executable 
 You can run it with `--help` to get all flags.\
 um... In simplest case, it looked like...
 
-```text
-$ ./i18nglish.out --mode arguments hello world
+```shell
+./i18nglish.out --mode arguments hello world
 h3o w3d
 ```
 
@@ -54,7 +54,7 @@ Usage: i18nglish [--version] [--help] --mode <MODE> [args]
 MODE(for set input source):
         arguments       Use all arguments after it
         file <path>     Read a text file
-        stdin   Same 'file' but use stdin
+        stdin           Same 'file' but use stdin
 ```
 
 ### Precautions
@@ -62,15 +62,16 @@ MODE(for set input source):
 stdin/file mode only can process words with a maximum length of (1024 * 1) chars. This limit defined in *source/main.h*\
 Although there is no **word**(separated with `space` and `\n`) as long as this.
 
-Only use for ASCII(single char type) characters, don't do this:
+Only use for single 8-bit char type characters, don't do this:
 
 ```shell
-./i18nglish.out --mode arguments 这种字符串 或者 —
+echo 这种字符串 或者仅仅只是 — | ./i18nglish.out --mode stdin
 ```
 
 If it happened, I wouldn't care of them.\
-Maybe, the error looked like: `�16�`\
-This program just an English joke, so it's should be fine.
+The error looked like: `�16�`\
+This program just an English joke, so it's should be fine.\
+I don't want to adapt to UTF-8 `_(:з」∠)_`
 
 ## Move main functions to other project
 
@@ -90,6 +91,8 @@ call `i7hInitStructure()` at the START of the loop\
 call `i7hFreeStructure()` at the END of the loop to free them
 
 See usage details in *source/main.c*
+
+But... it won't delete punctuation with itself.
 
 ## Other Idea
 
