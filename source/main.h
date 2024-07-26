@@ -44,26 +44,27 @@
 #define INPUT_BUFFER_SIZE (1024 * 1)
 
 enum AppExitType {
-    AppExitOk = EXIT_SUCCESS,
-    AppExitStd = EXIT_FAILURE,
-    AppExitGetFlagError,
-    AppExitFlagValueError,
-    MainProcessorError,
-    AppPreProcessorError,
+    kAppExitOk = EXIT_SUCCESS,
+    kAppExitStd = EXIT_FAILURE,
+    kAppExitGetFlagError,
+    kAppExitFlagValueError,
+    kMainProcessorError,
+    kAppPreProcessorError,
 };
 
 enum AppCommandFlagMode {
-    AppInputMode_ParseArgument,
-    AppInputMode_ParseFile,
-    AppInputMode_ParseStdin,
-    AppInputMode_ShowHelp,
-    AppInputMode_ShowVersion,
+    kAppInputMode_ParseArgument,
+    kAppInputMode_ParseFile,
+    kAppInputMode_ParseStdin,
+    kAppInputMode_ShowHelp,
+    kAppInputMode_ShowVersion,
 };
 
 // TODO TBD feature
+// go to use pipe
 enum AppCommandOutputMode {
-    AppOutputMode_Stdout,
-    AppOutputMode_File,
+    kAppOutputMode_Stdout,
+    kAppOutputMode_File,
 };
 
 struct AppCliFlagConfig {

@@ -19,6 +19,7 @@ releaseBuild := 0
 
 # combining compiler's flags
 CFlag_clang += -I./
+CFlag_clang += -Os
 CFlag_clang += -DAPP_GIT_COMMIT_INFO="\"$(git_commit_info)\""
 CFlag_clang += -DAPP_BUILD_HOST_DESCRIPTION="\"$(build_host_description)\""
 CFlag_clang += -DAPP_BUILD_RELEASE_MODE="$(releaseBuild)"

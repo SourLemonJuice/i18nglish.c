@@ -8,9 +8,16 @@
 
 #include "main.h"
 
-/* private functions prototype */
-// get the length of a integer
-int getIntLength(int src_int);
+/*
+    get the length of a integer
+ */
+static int getIntLength_(int src_int)
+{
+    int length = 1;
+    for (; src_int > 10; length++)
+        src_int /= 10;
+    return length;
+}
 
 // i7h_D means "i7h data structure"
 int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[])
@@ -19,7 +26,7 @@ int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[])
     i7h_D->src_string_length = strlen(src_string);
     /* get buffer size */
     // +2 is first and end char, last +1 is \0
-    i7h_D->now_buffer_size = getIntLength(i7h_D->src_string_length - 2) + 2 + 1;
+    i7h_D->now_buffer_size = getIntLength_(i7h_D->src_string_length - 2) + 2 + 1;
     /* update max usage memary size of buffer */
     if (i7h_D->now_buffer_size > i7h_D->real_buffer_size) {
         i7h_D->real_buffer_size = i7h_D->now_buffer_size * 1.2; // for redundancy, realSize is (nowSize * 1.2)
@@ -67,12 +74,4 @@ int i7hFreeStructure(struct I7hDataStruct i7h_D[restrict])
     }
 
     return 0;
-}
-
-int getIntLength(int src_int)
-{
-    int length = 1;
-    for (; src_int > 10; length++)
-        src_int /= 10;
-    return length;
 }

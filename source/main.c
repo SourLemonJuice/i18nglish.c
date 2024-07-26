@@ -16,11 +16,11 @@
     the main program need exit with this code.
     like: `exit(thisFunc(str, int))`
  */
-int i7hProcessorExitLog(char source_string[], int proc_result)
+static int i7hProcessorExitLog_(char source_string[], int proc_result)
 {
     printf("Error: Something wrong while processing.\n");
     printf("Source string: '%s', Result code: %d\n", source_string, proc_result);
-    return MainProcessorError;
+    return kMainProcessorError;
 }
 
 /*
@@ -28,7 +28,7 @@ int i7hProcessorExitLog(char source_string[], int proc_result)
     src_string must be larger then des_string, for safe.
     Maybe this restriction will lifted in future.
  */
-int deletePunctuations(char src_string[], int src_size, char des_string[], int des_size)
+static int deletePunctuations(char src_string[], int src_size, char des_string[], int des_size)
 {
     if (src_size > des_size)
         return 1;
@@ -53,7 +53,7 @@ int i7hProcessorArgv(int argc, char *argv[], int argc_begin)
 {
     if (argc_begin > argc - 1) {
         puts("ERROR: Parameter invalid.");
-        exit(AppExitGetFlagError);
+        exit(kAppExitGetFlagError);
     }
 
     // this buffer use to store argv without punctuation
@@ -68,14 +68,14 @@ int i7hProcessorArgv(int argc, char *argv[], int argc_begin)
     for (int i = argc_begin; i < argc; i++) {
         // delete punct
         if (deletePunctuations(argv[i], strlen(argv[i]) + 1, argv_nopunct, INPUT_BUFFER_SIZE) != 0) {
-            exit(AppPreProcessorError);
+            exit(kAppPreProcessorError);
         }
         // call the main function
         i7h_proc_result = i7hProcessor(&i7h_data, argv_nopunct);
         if (i7h_proc_result == 0) {
             printf("%s ", i7h_data.buffer);
         } else {
-            exit(i7hProcessorExitLog(argv[i], i7h_proc_result));
+            exit(i7hProcessorExitLog_(argv[i], i7h_proc_result));
         }
     }
     printf("\n");
@@ -91,7 +91,7 @@ int i7hProcessorFile(char *file_path)
     FILE *file_handle = fopen(file_path, "r");
     if (file_handle == NULL) {
         printf("ERROR: File con't open\n");
-        exit(AppExitStd);
+        exit(kAppExitStd);
     }
     char next_char_tmp;
     char next_string[INPUT_BUFFER_SIZE];
@@ -114,13 +114,13 @@ int i7hProcessorFile(char *file_path)
         fscanf(file_handle, "%s", next_string);
         // delete punctuations
         if (deletePunctuations(next_string, INPUT_BUFFER_SIZE, next_string_nopunct, INPUT_BUFFER_SIZE) != 0) {
-            exit(AppPreProcessorError);
+            exit(kAppPreProcessorError);
         }
         // call the main function
         if ((i7h_proc_result = i7hProcessor(&i7h_data, next_string_nopunct)) == 0) {
             printf("%s ", i7h_data.buffer);
         } else {
-            exit(i7hProcessorExitLog(next_string, i7h_proc_result));
+            exit(i7hProcessorExitLog_(next_string, i7h_proc_result));
         }
     }
     printf("\n");
@@ -132,6 +132,7 @@ int i7hProcessorFile(char *file_path)
     return 0;
 }
 
+// Sames like i7hProcessorFile, here is just copy
 int i7hProcessorStdin(void)
 {
     char next_char;
@@ -142,7 +143,6 @@ int i7hProcessorStdin(void)
     i7hInitStructure(&i7h_data);
     int i7h_proc_result;
 
-    // Sames like i7hProcessorFile, here is just copy
     while ((next_char = getc(stdin)) != EOF) {
         if (next_char == ' ' or next_char == '\n')
             continue;
@@ -152,12 +152,12 @@ int i7hProcessorStdin(void)
         fscanf(stdin, "%s", temp_string);
         // delete punctuations
         if (deletePunctuations(temp_string, INPUT_BUFFER_SIZE, temp_string_nopunct, INPUT_BUFFER_SIZE) != 0) {
-            exit(AppPreProcessorError);
+            exit(kAppPreProcessorError);
         }
         if ((i7h_proc_result = i7hProcessor(&i7h_data, temp_string_nopunct)) == 0) {
             printf("%s ", i7h_data.buffer);
         } else {
-            exit(i7hProcessorExitLog(temp_string, i7h_proc_result));
+            exit(i7hProcessorExitLog_(temp_string, i7h_proc_result));
         }
     }
     printf("\n");
@@ -171,20 +171,20 @@ int parseCliFlag(struct AppCliFlagConfig *flag_data, int argc, char *argv[])
 {
     if (argc < 2) {
         puts("ERROR: Need some arguments, use \"--help\" flag to check more info.");
-        return AppExitGetFlagError;
+        return kAppExitGetFlagError;
     }
 
     for (int i = 1; i + 1 <= argc; i++) {
         // --help
         if (strcmp(argv[i], "--help") == 0) {
-            flag_data->main_mode = AppInputMode_ShowHelp;
-            return AppExitOk;
+            flag_data->main_mode = kAppInputMode_ShowHelp;
+            return kAppExitOk;
         }
 
         // --version
         if (strcmp(argv[i], "--version") == 0) {
-            flag_data->main_mode = AppInputMode_ShowVersion;
-            return AppExitOk;
+            flag_data->main_mode = kAppInputMode_ShowVersion;
+            return kAppExitOk;
         }
 
         // --mode
@@ -193,45 +193,45 @@ int parseCliFlag(struct AppCliFlagConfig *flag_data, int argc, char *argv[])
             // error detect
             if (not(i + 1 <= argc)) {
                 printf("No value of --mode flag\n");
-                return AppExitGetFlagError;
+                return kAppExitGetFlagError;
             }
 
             // arguments
             if (strcmp(argv[i], "arguments") == 0) {
-                flag_data->main_mode = AppInputMode_ParseArgument;
+                flag_data->main_mode = kAppInputMode_ParseArgument;
                 i++;
                 if (i + 1 <= argc) {
                     flag_data->output_argc_begin = i;
                 } else {
                     printf("Invalid/Null value of '--mode argument'\n");
-                    return AppExitFlagValueError;
+                    return kAppExitFlagValueError;
                 }
-                return AppExitOk;
+                return kAppExitOk;
             }
             // file
             if (strcmp(argv[i], "file") == 0) {
-                flag_data->main_mode = AppInputMode_ParseFile;
+                flag_data->main_mode = kAppInputMode_ParseFile;
                 i++;
                 if (i + 1 <= argc) {
                     flag_data->output_file_path = argv[i];
                 } else {
                     printf("Invalid/Null value of '--mode file'\n");
-                    return AppExitFlagValueError;
+                    return kAppExitFlagValueError;
                 }
-                return AppExitOk;
+                return kAppExitOk;
             }
             // stdin
             if (strcmp(argv[i], "stdin") == 0) {
-                flag_data->main_mode = AppInputMode_ParseStdin;
-                return AppExitOk;
+                flag_data->main_mode = kAppInputMode_ParseStdin;
+                return kAppExitOk;
             }
             // default
             printf("Invalid/Null value of '--mode'\n");
-            return AppExitFlagValueError;
+            return kAppExitFlagValueError;
         }
         // default
         printf("ERROR: Invalid Flag '%s'\n", argv[i]);
-        return AppExitGetFlagError;
+        return kAppExitGetFlagError;
     }
 
     return 0;
@@ -245,20 +245,20 @@ int main(int argc, char *argv[])
     // parse flags
     struct AppCliFlagConfig flag_data;
     int parse_flag_rsult = parseCliFlag(&flag_data, argc, argv);
-    if (parse_flag_rsult != AppExitOk)
+    if (parse_flag_rsult != kAppExitOk)
         exit(parse_flag_rsult);
 
     switch (flag_data.main_mode) {
-    case AppInputMode_ShowHelp:
+    case kAppInputMode_ShowHelp:
         printf("NOTE: Flags are just half stable\n");
         printf("Usage: i18nglish [--version] [--help] --mode <MODE> [args]\n");
         printf("\nMODE(for set input source):\n");
         printf("\targuments\tUse all arguments after it\n");
         printf("\tfile <path>\tRead a text file\n");
         printf("\tstdin\t\tSame 'file' but use stdin\n");
-        exit(AppExitOk);
+        exit(kAppExitOk);
         break;
-    case AppInputMode_ShowVersion:
+    case kAppInputMode_ShowVersion:
         printf("==== Versions ====\n");
         printf("App version:\t%s\n", APP_VERSION_STRING);
         printf("Build Date:\t%s\n", APP_BUILD_DATE_UTC);
@@ -268,23 +268,23 @@ int main(int argc, char *argv[])
         printf("==== Author info ====\n");
         printf("Developed by 酸柠檬猹/SourLemonJuice 2024\n");
         printf("Published under MIT license\n");
-        exit(AppExitOk);
+        exit(kAppExitOk);
         break;
-    case AppInputMode_ParseArgument:
+    case kAppInputMode_ParseArgument:
         i7hProcessorArgv(argc, argv, flag_data.output_argc_begin);
-        exit(AppExitOk);
+        exit(kAppExitOk);
         break;
-    case AppInputMode_ParseStdin:
+    case kAppInputMode_ParseStdin:
         i7hProcessorStdin();
-        exit(AppExitOk);
+        exit(kAppExitOk);
         break;
-    case AppInputMode_ParseFile:
+    case kAppInputMode_ParseFile:
         i7hProcessorFile(flag_data.output_file_path);
-        exit(AppExitOk);
+        exit(kAppExitOk);
         break;
     }
 
     // at last print some ERROR by default
     puts("ERROR: Unknow Error at 'main'");
-    exit(AppExitStd);
+    exit(kAppExitStd);
 }
