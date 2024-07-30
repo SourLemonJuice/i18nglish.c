@@ -26,7 +26,8 @@ For linux, goto `source/` folder, and run `make`.\
 The executable file will named `i18nglish.out`. At now, the compiler is `clang`.
 
 But for Microsoft Windows, I don't have too many ideas. I don't want to use MSVC because the complier's flags are very different.\
-So now, my choice is MinGW-w64(MSYS2) in Windows OS. Goto MSYS2 bash and run `make i18nglish.exe` to build the *.exe* file.
+So now, my choice is MinGW-w64(MSYS2) in Windows OS. Goto MSYS2 bash and run `make i18nglish.exe` to build the *.exe* file.\
+And... this output file looked like it can't run in other systems without MSYS2, sorry.
 
 If need to compile a release version, run make with the argument `releaseBuild=1`.
 

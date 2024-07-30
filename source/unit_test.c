@@ -1,6 +1,6 @@
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
 
 #include "i7h/i7h_processor.h"
 
@@ -16,8 +16,8 @@ void test_i7hProcessor(void)
 
     for (int i = 0; i < 6; i++) {
         assert(i7hProcessor(&i7h_D, test_example[i]) == 0);
+        printf("i7hProcessor(): |%s| -> |%s|\n", test_example[i], i7h_D.buffer);
         assert(strcmp(i7h_D.buffer, test_example_answer[i]) == 0);
-        printf("i7hProcessor() output: %s\n", i7h_D.buffer);
     }
 
     assert(i7hFreeStructure(&i7h_D) == 0);
@@ -41,6 +41,7 @@ void test_deletePunctuations()
 
 int main(void)
 {
+    puts("一个非常草率的单元测试...");
     test_i7hProcessor();
     // test_deletePunctuations();
 
