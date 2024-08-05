@@ -8,7 +8,7 @@ git_commit_info := $(shell git describe --abbrev=40 --dirty --tags --always --lo
 # Add more build info(remote CI or just a local PC)
 build_host_description := Not explicit declared
 # get build UTC+0 date and time
-build_date_UTC := $(shell env LANG=en_US.UTF-8 LANGUAGE=en_US date --universal "+%c %:z")
+build_date_UTC := $(shell date --iso-8601=minutes --utc)
 
 # ' and " in shell is so... Ugly!!
 # And I'll use cli to overwrite them with github ci, uglier then ugly.
@@ -25,11 +25,11 @@ CFlag_clang += -DAPP_BUILD_HOST_DESCRIPTION="\"$(build_host_description)\""
 CFlag_clang += -DAPP_BUILD_RELEASE_MODE="$(releaseBuild)"
 CFlag_clang += -DAPP_BUILD_DATE_UTC="\"$(build_date_UTC)\""
 
-default: i18nglish.out
+default: i18nglish
 
-i18nglish.out: $(source_files)
+i18nglish: $(source_files)
 	/usr/bin/clang $(source_files) \
-		--output $(executable_base_name).out \
+		--output $(executable_base_name) \
 		$(CFlag_clang)
 
 # need to run in MSYS2 bash
