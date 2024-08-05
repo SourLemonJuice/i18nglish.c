@@ -18,7 +18,7 @@ This project really added a lot of useful peripheral components, like CI, code s
 
 A great gift for me.
 
-## Use in Command Line Utility
+## Using the command line
 
 ### Build
 
@@ -49,13 +49,14 @@ h3o w3d
 
 ```text
 $ ./i18nglish.out --help
-NOTE: Flags are just half stable
 Usage: i18nglish [--version] [--help] --mode <MODE> [args]
+> Flags are just half stable
 
 MODE(for set input source):
         arguments       Use all arguments after it
         file <path>     Read a text file
         stdin           Same 'file' but use stdin
+        stream-stdin    testing mode, use stream parser
 ```
 
 ### Precautions
@@ -74,7 +75,7 @@ The error looked like: `�16�`\
 This program just an English joke, so it's should be fine.\
 I don't want to adapt to UTF-8 `_(:з」∠)_`
 
-## Move main functions to other project
+## Using in other project
 
 All the functions/defines you need are in *source/i7h/i7h_processor.c and .h*
 
@@ -84,7 +85,7 @@ The main process function is `i7hProcessor()`, this is its prototype:
 int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[]);
 ```
 
-And the structure `I7hDataStruct`, it's like a buffer of processor.
+And the structure `I7hDataStruct`, it's like a buffer of processor
 
 When the `i7hProcessor()` is called, it'll auto resize the buffer in structure.\
 The caller doesn't need to free the buffer in every loop. But **must**:\
@@ -93,29 +94,28 @@ call `i7hFreeStructure()` at the END of the loop to free them
 
 See usage details in *source/main.c*
 
-But... it won't delete punctuation with itself.
+But... it won't delete punctuation with itself
 
-## Other Idea
+Be sure to check out the [#Stream version parser](#stream-version-parser), it's a new and better API
 
-Ah..\
-If just use it in CLI/stdout, you can do it this way(untested):
+## Stream version parser
 
-```c
-int src_string_length = strlen(src_string); // get length
+`i7hParserStream()` is a new API of this project.\
+It gets rid from some crappy frameworks. here's some good thing about it:
 
-putc(src_string[0], stdout); // first char
-printf("%d", src_string_length - 2); // the numbers between
-putc(src_string[src_string_length - 1], stdout); // last char
-putc('\n');
-```
+- Cleaner code!
+- Perfect punctuation detect
+- Recognize word more correctly
+- Don't need create data structure manually
+- Direct processing streams, like `stdin/stdout` or a file handle
 
-Maybe I'll put them to *main.c* at later.
+Use `--mode stream-stdin` in CLI to try it
 
 ## Todo List
 
 > Todo list is for myself, not for showing off. The history todo only needs stored in git history.
 
-- Unit test(only for core processor)
+- Migrate all mode to stream version parser
 
 ## Code style
 

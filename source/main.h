@@ -1,8 +1,8 @@
 #ifndef APP_MAIN_H_
 #define APP_MAIN_H_
 
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 /*
     For compiler defin flag(gcc -D)
@@ -44,18 +44,19 @@
 #define INPUT_BUFFER_SIZE (1024 * 1)
 
 enum AppExitType {
-    kAppExitOk = EXIT_SUCCESS,
-    kAppExitStd = EXIT_FAILURE,
-    kAppExitGetFlagError,
-    kAppExitFlagValueError,
-    kMainProcessorError,
-    kAppPreProcessorError,
+    kAppOk = EXIT_SUCCESS,
+    kAppErrorStd = EXIT_FAILURE,
+    kAppErrorGetFlag,
+    kAppErrorFlagValue,
+    kParserErrorProcessing,
+    kAppErrorPreProcessing,
 };
 
 enum AppCommandFlagMode {
     kAppInputMode_ParseArgument,
     kAppInputMode_ParseFile,
     kAppInputMode_ParseStdin,
+    kAppInputMode_ParseStreamStdin,
     kAppInputMode_ShowHelp,
     kAppInputMode_ShowVersion,
 };

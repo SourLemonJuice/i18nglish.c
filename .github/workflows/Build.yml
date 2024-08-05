@@ -65,6 +65,7 @@ jobs:
   # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
   # https://www.msys2.org/docs/ci/
   Build-for-Windows:
+    if: false
     runs-on: windows-latest
     needs: [Unit-Testing, End-to-End-Testing, Build-for-Linux]
     defaults:

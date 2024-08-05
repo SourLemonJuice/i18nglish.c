@@ -1,5 +1,6 @@
 #include "i7h_processor.h"
 
+#include <ctype.h>
 #include <iso646.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -19,48 +20,31 @@ static int getIntLength_(int src_int)
     return length;
 }
 
-// i7h_D means "i7h data structure"
-int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[])
-{
-    /* get length */
-    i7h_D->src_string_length = strlen(src_string);
-    /* get buffer size */
-    // +2 is first and end char, last +1 is \0
-    i7h_D->now_buffer_size = getIntLength_(i7h_D->src_string_length - 2) + 2 + 1;
-    /* update max usage memary size of buffer */
-    if (i7h_D->now_buffer_size > i7h_D->real_buffer_size) {
-        i7h_D->real_buffer_size = i7h_D->now_buffer_size * 1.2; // for redundancy, realSize is (nowSize * 1.2)
-        // and expand real buffer size
-        i7h_D->buffer = realloc(i7h_D->buffer, i7h_D->real_buffer_size);
-        // error detection of realloc
-        if (i7h_D->buffer == NULL)
-            return I7hErrorAllocMemory;
-    }
+/*
+    Resize the i7h buffer.
 
-    /* create buffer and processing */
-    // if only have 2 chars, just return them
-    if (i7h_D->src_string_length <= 2) {
-        strcpy(i7h_D->buffer, src_string);
-        return 0;
-    } else {
-        // normal one
-        if (snprintf(i7h_D->buffer, i7h_D->now_buffer_size, "%c%d%c", src_string[0], i7h_D->src_string_length - 2,
-                     src_string[i7h_D->src_string_length - 1]) >= 0) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
+    Result:
+        - true: ok
+        - false: error
+ */
+static bool bufferRealloc_(struct I7hDataStruct data[restrict])
+{
+    data->real_buffer_size = data->need_buffer_size + 32; // for redundancy, realSize is (nowSize + 32)
+    data->buffer = realloc(data->buffer, data->real_buffer_size);
+    if (data->buffer == NULL)
+        return false;
+
+    return true;
 }
 
 int i7hInitStructure(struct I7hDataStruct i7h_D[restrict])
 {
-    i7h_D->now_buffer_size = 0;
+    i7h_D->need_buffer_size = 0;
     i7h_D->real_buffer_size = 3; // two char + one '\0', is default
+
     i7h_D->buffer = malloc(i7h_D->real_buffer_size); // default size is 3
-    // error detection
     if (i7h_D->buffer == NULL)
-        return I7hErrorAllocMemory;
+        return kI7hErrorAllocMemory;
 
     return 0;
 }
@@ -70,8 +54,98 @@ int i7hFreeStructure(struct I7hDataStruct i7h_D[restrict])
     if (i7h_D->buffer != NULL) {
         free(i7h_D->buffer);
     } else {
-        return I7hErrorFreeMemory;
+        return kI7hErrorFreeMemory;
     }
 
+    return 0;
+}
+
+/*
+    For single word parsing. Won't care punctuation.
+
+    i7h_D means "i7h data structure"
+ */
+int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[])
+{
+    /* get length */
+    i7h_D->src_string_length = strlen(src_string);
+    /* get buffer size */
+    // +2 is first and end char, last +1 is \0
+    i7h_D->need_buffer_size = getIntLength_(i7h_D->src_string_length - 2) + 2 + 1;
+
+    /* update max usage memary size of buffer */
+    if (i7h_D->need_buffer_size > i7h_D->real_buffer_size) {
+        // and expand real buffer size
+        if (bufferRealloc_(i7h_D) != true)
+            return kI7hErrorAllocMemory;
+    }
+
+    // if only have 2 chars, just return them
+    if (i7h_D->src_string_length <= 2) {
+        strcpy(i7h_D->buffer, src_string);
+        return 0;
+    }
+
+    // normal one
+    if (snprintf(i7h_D->buffer, i7h_D->need_buffer_size, "%c%d%c", src_string[0], i7h_D->src_string_length - 2,
+                 src_string[i7h_D->src_string_length - 1]) >= 0) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+/*
+    The stream version of i7h processor.
+    Built-in perfect punctuation detection feature.
+
+    WoW
+ */
+int i7hParserStream(FILE *stream, FILE *output)
+{
+    struct I7hDataStruct data;
+    i7hInitStructure(&data);
+
+    char ch;
+    int word_pos = 0;
+
+    while ((ch = getc(stream)) != EOF) {
+        // if it's the end of a word
+        if (ch == ' ' or ch == '\n' or ispunct(ch)) {
+            // if buffer still blank
+            if (word_pos == 0) {
+                fputc(ch, output);
+                continue;
+            }
+
+            // output the result string
+            data.buffer[word_pos] = '\0'; // // now, the word_pos and strlen(buffer) are the same
+            if (word_pos <= 2) {
+                fputs(data.buffer, output);
+            } else {
+                fputc(data.buffer[0], output);
+                fprintf(output, "%d", word_pos - 2);
+                fputc(data.buffer[word_pos - 1], output);
+            }
+            fputc(ch, output); // don't forget the char in the current loop
+            fflush(output); // finish
+
+            // reset
+            word_pos = 0;
+            continue;
+        }
+
+        // if buffer size not enough, expand it
+        if (word_pos >= data.real_buffer_size) {
+            data.need_buffer_size += 1;
+            if (bufferRealloc_(&data) != true)
+                return 1;
+        }
+
+        data.buffer[word_pos] = ch;
+        word_pos++;
+    }
+
+    i7hFreeStructure(&data);
     return 0;
 }
