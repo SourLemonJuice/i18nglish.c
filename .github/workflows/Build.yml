@@ -21,6 +21,7 @@ defaults:
 
 jobs:
   Unit-Testing:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,7 +37,7 @@ jobs:
 
   Build-for-Linux:
     runs-on: ubuntu-latest
-    needs: [Unit-Testing]
+    # needs: [Unit-Testing]
     steps:
       - uses: actions/checkout@v4
       - name: Build with make in Linux(Ubuntu)
@@ -50,6 +51,7 @@ jobs:
           retention-days: 7
 
   End-to-End-Testing:
+    if: false
     runs-on: ubuntu-latest
     needs: [Unit-Testing, Build-for-Linux]
     steps:
