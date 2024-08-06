@@ -48,7 +48,7 @@ int i7hInitStructure(struct I7hDataStruct i7h_D[restrict])
     if (i7h_D->buffer == NULL)
         return kI7hErrorAllocMemory;
 
-    return 0;
+    return kI7hOK;
 }
 
 int i7hFreeStructure(struct I7hDataStruct i7h_D[restrict])
@@ -59,7 +59,7 @@ int i7hFreeStructure(struct I7hDataStruct i7h_D[restrict])
         return kI7hErrorFreeMemory;
     }
 
-    return 0;
+    return kI7hOK;
 }
 
 /*
@@ -67,7 +67,7 @@ int i7hFreeStructure(struct I7hDataStruct i7h_D[restrict])
 
     i7h_D means "i7h data structure"
  */
-int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[])
+int i7hParserString(struct I7hDataStruct i7h_D[restrict], const char src_string[])
 {
     /* get length */
     i7h_D->src_string_length = strlen(src_string);
@@ -85,15 +85,15 @@ int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[])
     // if only have 2 chars, just return them
     if (i7h_D->src_string_length <= 2) {
         strcpy(i7h_D->buffer, src_string);
-        return 0;
+        return kI7hOK;
     }
 
     // normal one
     if (snprintf(i7h_D->buffer, i7h_D->need_buffer_size, "%c%d%c", src_string[0], i7h_D->src_string_length - 2,
                  src_string[i7h_D->src_string_length - 1]) >= 0) {
-        return 0;
+        return kI7hOK;
     } else {
-        return 1;
+        return kI7hErrorStd;
     }
 }
 
@@ -143,7 +143,7 @@ int i7hParserStream(FILE *stream, FILE *output)
         if (word_pos >= data.real_buffer_size) {
             data.need_buffer_size += 1;
             if (bufferRealloc_(&data) != true)
-                return 1;
+                return kI7hErrorAllocMemory;
         }
 
         data.buffer[word_pos] = ch;
@@ -151,5 +151,5 @@ int i7hParserStream(FILE *stream, FILE *output)
     }
 
     i7hFreeStructure(&data);
-    return 0;
+    return kI7hErrorStd;
 }

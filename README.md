@@ -63,20 +63,21 @@ I don't want to adapt to UTF-8 `_(:з」∠)_`
 
 ## Using in other project
 
-Be sure to check out the [#Stream parser](#stream-parser), it's a new and better interface
+Be sure to check out the [#Stream parser](#stream-parser), it's a new and better interface.\
+This part is used to process an existing string
 
-All the functions/defines you need are in *source/i7h/i7h_processor.c and .h*
+All the functions/defines you need are in `source/i7h/i7h_processor.*`
 
-The main process function is `i7hProcessor()`, this is its prototype:
+The main process function is `i7hParserString()`, this is its prototype:
 
 ```c
-int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[]);
+int i7hParserString(struct I7hDataStruct i7h_D[restrict], const char src_string[]);
 ```
 
 And the structure `I7hDataStruct`, it's like a buffer of processor
 
-When the `i7hProcessor()` is called, it'll auto resize the buffer in structure.\
-The caller doesn't need to free the buffer in every loop. But **must**:\
+When the `i7hParserString()` is called, it'll auto resize the buffer in structure.\
+The caller doesn't need to free the buffer in every loop. But must:\
 call `i7hInitStructure()` at the START of the loop\
 call `i7hFreeStructure()` at the END of the loop to free them
 

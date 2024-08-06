@@ -18,7 +18,6 @@ static void i7hProcessorExitLog_(char source_string[], int proc_result)
 {
     printf("Error: Something wrong while processing.\n");
     printf("Source string: '%s', Result code: %d\n", source_string, proc_result);
-    return;
 }
 
 /*
@@ -63,7 +62,7 @@ int i7hProcessorArgv(int argc, char *argv[], int argc_begin)
     // process all arguments
     for (int i = argc_begin; i < argc; i++) {
         // call the main function
-        i7h_proc_result = i7hProcessor(&i7h_data, argv[i]);
+        i7h_proc_result = i7hParserString(&i7h_data, argv[i]);
         if (i7h_proc_result == 0) {
             printf("%s ", i7h_data.buffer);
         } else {
@@ -91,19 +90,19 @@ void i7hProcessorFile(char *file_path)
         exit(kErrorParserProcessing);
 
     fclose(file_handle);
-
-    return;
 }
 
-// Sames like i7hProcessorFile, here is just copy
 void i7hProcessorStdin(void)
 {
     if (i7hParserStream(stdin, stdout) != 0)
         exit(kErrorParserProcessing);
-
-    return;
 }
 
+/*
+    return:
+        kAppOk: ok
+        other: error?
+ */
 int parseCliFlag(struct AppCliFlagConfig *flag_data, int argc, char *argv[])
 {
     if (argc < 2) {
@@ -172,7 +171,7 @@ int parseCliFlag(struct AppCliFlagConfig *flag_data, int argc, char *argv[])
         return kErrorAppGetFlag;
     }
 
-    return 0;
+    return kAppOk;
 }
 
 int main(int argc, char *argv[])

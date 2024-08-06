@@ -15,8 +15,8 @@ void test_i7hProcessor(void)
     char *test_example_answer[] = {"h4,", "w4.", "-5o", "-7.", "-1-", "l11l"};
 
     for (int i = 0; i < 6; i++) {
-        assert(i7hProcessor(&i7h_D, test_example[i]) == 0);
-        printf("i7hProcessor(): |%s| -> |%s|\n", test_example[i], i7h_D.buffer);
+        assert(i7hParserString(&i7h_D, test_example[i]) == 0);
+        printf("i7hParserString(): |%s| -> |%s|\n", test_example[i], i7h_D.buffer);
         assert(strcmp(i7h_D.buffer, test_example_answer[i]) == 0);
     }
 

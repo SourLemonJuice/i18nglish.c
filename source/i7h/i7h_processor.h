@@ -15,7 +15,8 @@ struct I7hDataStruct {
 /* enumerates */
 enum I7hResultType {
     kI7hOK = 0,
-    kI7hErrorAllocMemory = 1,
+    kI7hErrorStd = 1,
+    kI7hErrorAllocMemory,
     kI7hErrorFreeMemory,
 };
 
@@ -24,9 +25,9 @@ enum I7hResultType {
 int i7hInitStructure(struct I7hDataStruct i7h_D[restrict]);
 // free buffer(if have)
 int i7hFreeStructure(struct I7hDataStruct i7h_D[restrict]);
-// main i7h processor
-int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[]);
-// stream version processor
+// i7h parse a string
+int i7hParserString(struct I7hDataStruct i7h_D[restrict], const char src_string[]);
+// stream version i7h parser
 int i7hParserStream(FILE *stream, FILE *output);
 
 #endif

@@ -61,16 +61,8 @@ enum AppCommandFlagMode {
     kAppInputMode_ShowVersion,
 };
 
-// TODO TBD feature
-// go to use pipe
-enum AppCommandOutputMode {
-    kAppOutputMode_Stdout,
-    kAppOutputMode_File,
-};
-
 struct AppCliFlagConfig {
     enum AppCommandFlagMode main_mode;
-    enum AppCommandOutputMode output_mode;
     char *output_file_path;
     int output_argc_begin;
 };
