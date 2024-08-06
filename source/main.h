@@ -25,7 +25,7 @@
 
 // switch between release build mode...
 #if APP_BUILD_RELEASE_MODE == 1
-#define APP_VERSION_STRING "ver-2.0"
+#define APP_VERSION_STRING "ver-2.1"
 #elif APP_BUILD_RELEASE_MODE == 0 // ...and develop build
 // cheating the code analyzer
 #define APP_BUILD_RELEASE_MODE 0
