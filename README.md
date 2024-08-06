@@ -12,7 +12,7 @@ Anyway, it's just an English joke program.
 - Yeah... Anyway, it's built with C.
 
 I'm learning C language, so it's a great way to practice language and learn how to build CI workflow.\
-I have also learned a lot of stuff about memory manager, really thanks to this project.
+I have also learned a lot of stuff about memory manage, really thanks to this project.
 
 This project really added a lot of useful peripheral components, like CI, code style, medium makefile, Windows and Linux build.
 
@@ -46,9 +46,6 @@ It also support `args(arguments)` and `file` mode.\
 Run it with `--help` to get all flags
 
 ### Precautions
-
-stdin/file mode only can process words with a maximum length of (1024 * 1) chars. This limit defined in *source/main.h*\
-Although there is no **word**(separated with `space` and `\n`) as long as this.
 
 Only use for single 8-bit char type characters, don't do this:
 
@@ -95,6 +92,12 @@ It gets rid from some crappy frameworks. here's some good thing about it:
 - Cleaner code!
 - Don't need create data structure manually
 - Direct processing streams, like `stdin/stdout` or a file handle
+
+Use it just like this:
+
+```c
+i7hParserStream(stdin, stdout); // only needed one line
+```
 
 Mode `stdin` and `file` are using this interface
 
