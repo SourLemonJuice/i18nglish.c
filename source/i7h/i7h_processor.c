@@ -11,6 +11,8 @@
 
 /*
     get the length of a integer
+
+    100 -> 3, 1000 -> 4
  */
 static int getIntLength_(int src_int)
 {
@@ -100,6 +102,8 @@ int i7hProcessor(struct I7hDataStruct i7h_D[restrict], const char src_string[])
     Built-in perfect punctuation detection feature.
 
     WoW
+
+    return non 0: error
  */
 int i7hParserStream(FILE *stream, FILE *output)
 {

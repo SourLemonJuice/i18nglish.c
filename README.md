@@ -35,29 +35,15 @@ In addition, GitHub Workflow and Release may already have the latest executable 
 
 ### How to use
 
-#### Simply start
-
-You can run it with `--help` to get all flags.\
 um... In simplest case, it looked like...
 
 ```shell
-./i18nglish.out --mode arguments hello world
-h3o w3d
+echo "hello world" | ./i18nglish --mode stdin
+# output: h3o w3d
 ```
 
-#### All flags/arguments
-
-```text
-$ ./i18nglish.out --help
-Usage: i18nglish [--version] [--help] --mode <MODE> [args]
-> Flags are just half stable
-
-MODE(for set input source):
-        arguments       Use all arguments after it
-        file <path>     Read a text file
-        stdin           Same 'file' but use stdin
-        stream-stdin    testing mode, use stream parser
-```
+It also support `args(arguments)` and `file` mode.\
+Run it with `--help` to get all flags
 
 ### Precautions
 
@@ -67,7 +53,7 @@ Although there is no **word**(separated with `space` and `\n`) as long as this.
 Only use for single 8-bit char type characters, don't do this:
 
 ```shell
-echo 这种字符串 或者仅仅只是 — | ./i18nglish.out --mode stdin
+echo "这种字符串 或者仅仅只是 —" | ./i18nglish.out --mode stdin
 ```
 
 If it happened, I wouldn't care of them.\
@@ -76,6 +62,8 @@ This program just an English joke, so it's should be fine.\
 I don't want to adapt to UTF-8 `_(:з」∠)_`
 
 ## Using in other project
+
+Be sure to check out the [#Stream parser](#stream-parser), it's a new and better interface
 
 All the functions/defines you need are in *source/i7h/i7h_processor.c and .h*
 
@@ -94,28 +82,26 @@ call `i7hFreeStructure()` at the END of the loop to free them
 
 See usage details in *source/main.c*
 
-But... it won't delete punctuation with itself
+And... it won't delete punctuation with itself
 
-Be sure to check out the [#Stream version parser](#stream-version-parser), it's a new and better API
+## Stream parser
 
-## Stream version parser
-
-`i7hParserStream()` is a new API of this project.\
+`i7hParserStream()` is a new interface of this project.\
 It gets rid from some crappy frameworks. here's some good thing about it:
 
-- Cleaner code!
 - Perfect punctuation detect
 - Recognize word more correctly
+- Cleaner code!
 - Don't need create data structure manually
 - Direct processing streams, like `stdin/stdout` or a file handle
 
-Use `--mode stream-stdin` in CLI to try it
+Mode `stdin` and `file` are using this interface
 
 ## Todo List
 
 > Todo list is for myself, not for showing off. The history todo only needs stored in git history.
 
-- Migrate all mode to stream version parser
+- NULL
 
 ## Code style
 

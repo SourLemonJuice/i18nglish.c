@@ -34,29 +34,29 @@
 #error The macro APP_BUILD_RELEASE_MODE is set to non 0/1, go check make flags.
 #endif
 
-/* Self define */
 /*
     TODO I'm tired...
     This size use for some input string preprocessor, like fscanf() or deletePunctuations()
     It's not perfet. Only auto size can keep pointer safe. BUT:
     There's no any word that has more than 1KiB length, whatever...
+
+    emm... go use the stream version of the interface
  */
-#define INPUT_BUFFER_SIZE (1024 * 1)
+// #define INPUT_BUFFER_SIZE (1024 * 1)
 
 enum AppExitType {
     kAppOk = EXIT_SUCCESS,
-    kAppErrorStd = EXIT_FAILURE,
-    kAppErrorGetFlag,
-    kAppErrorFlagValue,
-    kParserErrorProcessing,
-    kAppErrorPreProcessing,
+    kErrorAppStd = EXIT_FAILURE,
+    kErrorAppGetFlag,
+    kErrorAppFlagValue,
+    kErrorParserProcessing,
+    kErrorAppPreProcessing,
 };
 
 enum AppCommandFlagMode {
     kAppInputMode_ParseArgument,
     kAppInputMode_ParseFile,
     kAppInputMode_ParseStdin,
-    kAppInputMode_ParseStreamStdin,
     kAppInputMode_ShowHelp,
     kAppInputMode_ShowVersion,
 };
