@@ -177,7 +177,7 @@ int parseCliFlag(struct AppCliFlagConfig *flag_data, int argc, char *argv[])
 int main(int argc, char *argv[])
 {
     // set locale
-    setlocale(LC_ALL, "en_US.UTF-8");
+    setlocale(LC_ALL, "C.UTF-8");
 
     // parse flags
     struct AppCliFlagConfig flag_data;
@@ -190,11 +190,10 @@ int main(int argc, char *argv[])
         printf("Usage: i18nglish [--version] [--help] --mode <MODE> [args]\n");
         printf("> Flags are just half stable\n");
         printf("\nMODE(for set input source):\n");
-        printf("\targs <arg>...\tUse all arguments after it. This mode won't care punctuation\n");
+        printf("\targs <arg> ...\tUse all arguments after it. This mode won't care punctuation\n");
         printf("\tstdin\t\tGet input from stdin stream\n");
         printf("\tfile <path>\tRead a text file\n");
         exit(kAppOk);
-        break;
     case kAppInputMode_ShowVersion:
         printf("==== Versions ====\n");
         printf("App version:\t%s\n", APP_VERSION_STRING);
@@ -206,19 +205,15 @@ int main(int argc, char *argv[])
         printf("Developed by 酸柠檬猹/SourLemonJuice 2024\n");
         printf("Published under MIT license\n");
         exit(kAppOk);
-        break;
     case kAppInputMode_ParseArgument:
         i7hProcessorArgv(argc, argv, flag_data.output_argc_begin);
         exit(kAppOk);
-        break;
     case kAppInputMode_ParseStdin:
         i7hProcessorStdin();
         exit(kAppOk);
-        break;
     case kAppInputMode_ParseFile:
         i7hProcessorFile(flag_data.output_file_path);
         exit(kAppOk);
-        break;
     }
 
     // at last print some ERROR by default
