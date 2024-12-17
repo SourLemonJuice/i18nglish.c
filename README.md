@@ -38,7 +38,7 @@ In addition, GitHub Workflow and Release may already have the latest executable 
 um... In simplest case, it looked like...
 
 ```shell
-echo "hello world" | ./i18nglish --mode stdin
+echo "hello world" | ./i18nglish stdin
 # output: h3o w3d
 ```
 
@@ -50,7 +50,7 @@ Run it with `--help` to get all flags
 Only use for single 8-bit char type characters, don't do this:
 
 ```shell
-echo "这种字符串 或者仅仅只是 —" | ./i18nglish.out --mode stdin
+echo "这种字符串 或者仅仅只是 —" | ./i18nglish stdin
 ```
 
 If it happened, I wouldn't care of them.\
