@@ -106,66 +106,56 @@ void i7hProcessorStdin(void)
 int parseCliFlag(struct AppCliFlagConfig *flag_data, int argc, char *argv[])
 {
     if (argc < 2) {
-        printf("ERROR: Need some arguments, use \"--help\" flag to check more info.\n\n");
-        flag_data->main_mode = kAppInputMode_ShowHelp;
+        printf("ERROR: Need some arguments, try '--help'.\n\n");
+        flag_data->mode = kAppInputMode_ShowHelp;
         return kAppOk;
     }
 
     for (int i = 1; i + 1 <= argc; i++) {
         // --help
-        if (strcmp(argv[i], "--help") == 0) {
-            flag_data->main_mode = kAppInputMode_ShowHelp;
+        if (strcmp(argv[i], "--help") == 0 or strcmp(argv[i], "help") == 0) {
+            flag_data->mode = kAppInputMode_ShowHelp;
             return kAppOk;
         }
 
         // --version
         if (strcmp(argv[i], "--version") == 0) {
-            flag_data->main_mode = kAppInputMode_ShowVersion;
+            flag_data->mode = kAppInputMode_ShowVersion;
             return kAppOk;
         }
 
-        // --mode
-        if (strcmp(argv[i], "--mode") == 0) {
+        // args
+        if (strcmp(argv[i], "args") == 0) {
+            flag_data->mode = kAppInputMode_ParseArgument;
             i++;
-            // error detect
-            if (not(i + 1 <= argc)) {
-                printf("No value of --mode flag\n");
-                return kErrorAppGetFlag;
+            if (i + 1 <= argc) {
+                flag_data->input_argc_begin = i;
+            } else {
+                printf("Invalid/Null value of mode 'args''\n");
+                return kErrorAppFlagValue;
             }
-
-            // args
-            if (strcmp(argv[i], "args") == 0) {
-                flag_data->main_mode = kAppInputMode_ParseArgument;
-                i++;
-                if (i + 1 <= argc) {
-                    flag_data->output_argc_begin = i;
-                } else {
-                    printf("Invalid/Null value of '--mode argument'\n");
-                    return kErrorAppFlagValue;
-                }
-                return kAppOk;
-            }
-            // file
-            if (strcmp(argv[i], "file") == 0) {
-                flag_data->main_mode = kAppInputMode_ParseFile;
-                i++;
-                if (i + 1 <= argc) {
-                    flag_data->output_file_path = argv[i];
-                } else {
-                    printf("Invalid/Null value of '--mode file'\n");
-                    return kErrorAppFlagValue;
-                }
-                return kAppOk;
-            }
-            // stdin
-            if (strcmp(argv[i], "stdin") == 0) {
-                flag_data->main_mode = kAppInputMode_ParseStdin;
-                return kAppOk;
-            }
-            // default
-            printf("Invalid/Null value of '--mode'\n");
-            return kErrorAppFlagValue;
+            return kAppOk;
         }
+
+        // file
+        if (strcmp(argv[i], "file") == 0) {
+            flag_data->mode = kAppInputMode_ParseFile;
+            i++;
+            if (i + 1 <= argc) {
+                flag_data->input_file_path = argv[i];
+            } else {
+                printf("Invalid/Null value of mode 'file'\n");
+                return kErrorAppFlagValue;
+            }
+            return kAppOk;
+        }
+
+        // stdin
+        if (strcmp(argv[i], "stdin") == 0) {
+            flag_data->mode = kAppInputMode_ParseStdin;
+            return kAppOk;
+        }
+
         // default
         printf("ERROR: Invalid Flag '%s'\n", argv[i]);
         return kErrorAppGetFlag;
@@ -185,14 +175,13 @@ int main(int argc, char *argv[])
     if (parse_flag_rsult != kAppOk)
         exit(parse_flag_rsult);
 
-    switch (flag_data.main_mode) {
+    switch (flag_data.mode) {
     case kAppInputMode_ShowHelp:
-        printf("Usage: i18nglish [--version] [--help] --mode <MODE> [args]\n");
-        printf("> Flags are just half stable\n");
+        printf("Usage: i18nglish [--version] [--help | help] <MODE> [args]\n");
         printf("\nMODE(for set input source):\n");
-        printf("\targs <arg> ...\tUse all arguments after it. This mode won't care punctuation\n");
-        printf("\tstdin\t\tGet input from stdin stream\n");
-        printf("\tfile <path>\tRead a text file\n");
+        printf("   args <str> [...]\tUse all arguments after it. This mode won't care punctuation\n");
+        printf("   stdin\t\tGet input from stdin stream\n");
+        printf("   file <path>\t\tRead a text file\n");
         exit(kAppOk);
     case kAppInputMode_ShowVersion:
         printf("==== Versions ====\n");
@@ -206,13 +195,13 @@ int main(int argc, char *argv[])
         printf("Published under MIT license\n");
         exit(kAppOk);
     case kAppInputMode_ParseArgument:
-        i7hProcessorArgv(argc, argv, flag_data.output_argc_begin);
+        i7hProcessorArgv(argc, argv, flag_data.input_argc_begin);
         exit(kAppOk);
     case kAppInputMode_ParseStdin:
         i7hProcessorStdin();
         exit(kAppOk);
     case kAppInputMode_ParseFile:
-        i7hProcessorFile(flag_data.output_file_path);
+        i7hProcessorFile(flag_data.input_file_path);
         exit(kAppOk);
     }
 

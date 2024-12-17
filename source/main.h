@@ -62,9 +62,9 @@ enum AppCommandFlagMode {
 };
 
 struct AppCliFlagConfig {
-    enum AppCommandFlagMode main_mode;
-    char *output_file_path;
-    int output_argc_begin;
+    enum AppCommandFlagMode mode;
+    char *input_file_path;
+    int input_argc_begin;
 };
 
 #endif
