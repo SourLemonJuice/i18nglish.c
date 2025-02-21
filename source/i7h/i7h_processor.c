@@ -123,7 +123,7 @@ int i7hParserStream(FILE *stream, FILE *output)
             }
 
             // output the result string
-            data.buffer[word_pos] = '\0'; // // now, the word_pos and strlen(buffer) are the same
+            data.buffer[word_pos] = '\0'; // now, the word_pos and strlen(buffer) are the same
             if (word_pos <= 2) {
                 fputs(data.buffer, output);
             } else {
@@ -151,5 +151,5 @@ int i7hParserStream(FILE *stream, FILE *output)
     }
 
     i7hFreeStructure(&data);
-    return kI7hErrorStd;
+    return kI7hOK;
 }
